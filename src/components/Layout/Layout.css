@@ -1,0 +1,11 @@
+body {
+  background-color: #f0f2f5;
+}
+
+.ant-layout-content {
+  padding: 24px 50px;
+}
+
+.ant-layout-footer {
+  padding: 0 50px 24px;
+}
