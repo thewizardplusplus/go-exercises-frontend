@@ -15,7 +15,19 @@ export function LoginForm() {
           setLoading(true)
 
           try {
-            await new Promise(resolve => setTimeout(resolve, 2000))
+            const response = await fetch('/api/v1/tokens/', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data),
+            })
+            if (!response.ok) {
+              const errMessage = await response.text()
+              throw new Error(errMessage)
+            }
+
+            const credentials = await response.json()
+            console.log(credentials)
+
             message.info('Has been logged')
           } catch (exception) {
             message.error(exception.toString())
