@@ -1,5 +1,6 @@
 import { Layout as AntLayout } from 'antd'
 import { PageHeader } from '../PageHeader/PageHeader.js'
+import { LoginForm } from '../LoginForm/LoginForm.js'
 import 'antd/dist/antd.css'
 import './Layout.css'
 
@@ -11,7 +12,9 @@ export function Layout() {
         <PageHeader />
       </Header>
 
-      <Content>Content</Content>
+      <Content>
+        <LoginForm />
+      </Content>
 
       <Footer>Copyright &copy; 2021 thewizardplusplus</Footer>
     </AntLayout>
