@@ -1,5 +1,6 @@
+import { Form, Input, Spin, Button, message } from 'antd'
 import { useState } from 'react'
-import { Spin, Form, Input, Button, message } from 'antd'
+import jwtDecode from 'jwt-decode'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './LoginForm.css'
 
@@ -26,7 +27,8 @@ export function LoginForm() {
             }
 
             const credentials = await response.json()
-            console.log(credentials)
+            const decodedCredentials = jwtDecode(credentials.AccessToken)
+            console.log(decodedCredentials)
 
             message.info('Has been logged')
           } catch (exception) {
