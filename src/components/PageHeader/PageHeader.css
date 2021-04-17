@@ -14,3 +14,7 @@
 .ant-page-header-back .anticon {
   color: #f0f2f5;
 }
+
+.ant-page-header-heading-extra .page-header-user-avatar {
+  color: rgba(0, 0, 0, 0.85);
+}
