@@ -1,17 +1,25 @@
-import { Form, Input, Spin, Button, message } from 'antd'
 import { useState } from 'react'
 import { useSignIn } from 'react-auth-kit'
-import { useHistory } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
+import { useIsAuthenticated } from 'react-auth-kit'
+import { Form, Input, Spin, Button, message } from 'antd'
 import jwtDecode from 'jwt-decode'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './LoginForm.css'
 
 export function LoginForm() {
-  const { Item } = Form
-  const { Password } = Input
+  // hooks should be called unconditionally
   const [loading, setLoading] = useState(false)
   const signIn = useSignIn()
   const history = useHistory()
+
+  const isAuthenticated = useIsAuthenticated()
+  if (isAuthenticated()) {
+    return <Redirect to="/" />
+  }
+
+  const { Item } = Form
+  const { Password } = Input
   return (
     <Spin spinning={loading}>
       <Form
