@@ -1,5 +1,7 @@
 import { Form, Input, Spin, Button, message } from 'antd'
 import { useState } from 'react'
+import { useSignIn } from 'react-auth-kit'
+import { useHistory } from 'react-router-dom'
 import jwtDecode from 'jwt-decode'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './LoginForm.css'
@@ -8,6 +10,8 @@ export function LoginForm() {
   const { Item } = Form
   const { Password } = Input
   const [loading, setLoading] = useState(false)
+  const signIn = useSignIn()
+  const history = useHistory()
   return (
     <Spin spinning={loading}>
       <Form
@@ -28,9 +32,18 @@ export function LoginForm() {
 
             const credentials = await response.json()
             const decodedCredentials = jwtDecode(credentials.AccessToken)
-            console.log(decodedCredentials)
+            const isSignedIn = signIn({
+              tokenType: 'Bearer',
+              token: credentials.AccessToken,
+              // convert seconds to minutes
+              expiresIn: decodedCredentials.exp / 60,
+              authState: decodedCredentials.User,
+            })
+            if (!isSignedIn) {
+              throw new Error('unable to sign in')
+            }
 
-            message.info('Has been logged')
+            history.push('/')
           } catch (exception) {
             message.error(exception.toString())
           } finally {

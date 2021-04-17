@@ -1,12 +1,16 @@
 import { Switch, Route, Redirect } from 'react-router-dom'
+import { PrivateRoute } from 'react-auth-kit'
 import { LoginForm } from '../LoginForm/LoginForm.js'
 
 export function RouteSwitch() {
   return (
     <Switch>
-      <Route exact path="/">
-        Content
-      </Route>
+      <PrivateRoute
+        exact
+        path="/"
+        component={() => 'Content'}
+        loginPath={'/login'}
+      />
 
       <Route path="/login">
         <LoginForm />
