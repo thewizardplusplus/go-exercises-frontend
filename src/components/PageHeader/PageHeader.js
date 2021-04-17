@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom'
 import { useIsAuthenticated, useAuthUser, useSignOut } from 'react-auth-kit'
-import { PageHeader as AntPageHeader, Tag, Tooltip, Avatar, Button } from 'antd'
+import { PageHeader as AntPageHeader, Tooltip, Tag, Avatar, Button } from 'antd'
 import { HomeOutlined, LogoutOutlined } from '@ant-design/icons'
 import packageInfo from '../../../package.json'
 import './PageHeader.css'
@@ -12,7 +12,11 @@ export function PageHeader() {
   const signOut = useSignOut()
   return (
     <AntPageHeader
-      backIcon={<HomeOutlined />}
+      backIcon={
+        <Tooltip title="Go home">
+          <HomeOutlined />
+        </Tooltip>
+      }
       title="go-exercises"
       tags={<Tag>{packageInfo.version}</Tag>}
       onBack={() => history.push('/')}
