@@ -53,9 +53,8 @@ export function LoginForm() {
 
             history.push('/')
           } catch (exception) {
-            message.error(exception.toString())
-          } finally {
             setLoading(false)
+            message.error(exception.toString())
           }
         }}
       >
