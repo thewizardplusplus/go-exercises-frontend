@@ -2,10 +2,9 @@ import { useState } from 'react'
 import { useSignIn } from 'react-auth-kit'
 import { Redirect, useHistory } from 'react-router-dom'
 import { useIsAuthenticated } from 'react-auth-kit'
-import { Form, Input, Spin, Button, message } from 'antd'
+import { Spin, Form, Input, Button, message } from 'antd'
 import jwtDecode from 'jwt-decode'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
-import './LoginForm.css'
 
 export function LoginForm() {
   // hooks should be called unconditionally
@@ -65,11 +64,7 @@ export function LoginForm() {
         </Form.Item>
 
         <Form.Item>
-          <Button
-            className="login-form-submit-button"
-            type="primary"
-            htmlType="submit"
-          >
+          <Button type="primary" htmlType="submit" block>
             Log in
           </Button>
         </Form.Item>
