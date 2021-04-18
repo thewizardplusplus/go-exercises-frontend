@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
 import { List, Descriptions, message } from 'antd'
+import { Link } from 'react-router-dom'
 
 function reformatTimestamp(timestamp) {
   const parsedTimestamp = new Date(timestamp)
@@ -53,7 +54,11 @@ export function TaskGroup() {
       renderItem={task => (
         <List.Item>
           <List.Item.Meta
-            title={`#${task.ID} ${task.Title}`}
+            title={
+              <Link
+                to={`/tasks/${task.ID}`}
+              >{`#${task.ID} ${task.Title}`}</Link>
+            }
             description={
               <Descriptions column={1}>
                 <Descriptions.Item label="Created at">
