@@ -1,7 +1,22 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
-import { message } from 'antd'
+import { Card, Descriptions, Tooltip, Button, message } from 'antd'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+
+function reformatTimestamp(timestamp) {
+  const parsedTimestamp = new Date(timestamp)
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    timeZoneName: 'short',
+  })
+  return formatter.format(parsedTimestamp)
+}
 
 export function Task() {
   const [loading, setLoading] = useState(false)
@@ -25,7 +40,6 @@ export function Task() {
 
         const task = await response.json()
         setTask(task)
-        console.log(task)
       } catch (exception) {
         message.error(exception.toString())
       } finally {
@@ -34,5 +48,40 @@ export function Task() {
     })()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return `Task #${id}`
+  return (
+    <Card
+      loading={loading}
+      title={
+        <>
+          <p>{task?.Title}</p>
+          <Descriptions column={1}>
+            <Descriptions.Item label="Created at">
+              {task && reformatTimestamp(task.CreatedAt)}
+            </Descriptions.Item>
+            <Descriptions.Item label="Updated at">
+              {task && reformatTimestamp(task.UpdatedAt)}
+            </Descriptions.Item>
+          </Descriptions>
+        </>
+      }
+      extra={
+        <>
+          <Tooltip title="Edit">
+            <Button
+              icon={<EditOutlined />}
+              onClick={() => message.info('Edit')}
+            />
+          </Tooltip>
+          <Tooltip title="Delete">
+            <Button
+              icon={<DeleteOutlined />}
+              onClick={() => message.info('Delete')}
+            />
+          </Tooltip>
+        </>
+      }
+    >
+      <p>{task?.Description}</p>
+    </Card>
+  )
 }
