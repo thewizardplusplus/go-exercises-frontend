@@ -18,8 +18,6 @@ export function LoginForm() {
     return <Redirect to="/" />
   }
 
-  const { Item } = Form
-  const { Password } = Input
   return (
     <Spin spinning={loading}>
       <Form
@@ -58,15 +56,15 @@ export function LoginForm() {
           }
         }}
       >
-        <Item name="username">
+        <Form.Item name="username">
           <Input prefix={<UserOutlined />} placeholder="Username" />
-        </Item>
+        </Form.Item>
 
-        <Item name="password">
-          <Password prefix={<LockOutlined />} placeholder="Password" />
-        </Item>
+        <Form.Item name="password">
+          <Input.Password prefix={<LockOutlined />} placeholder="Password" />
+        </Form.Item>
 
-        <Item>
+        <Form.Item>
           <Button
             className="login-form-submit-button"
             type="primary"
@@ -74,7 +72,7 @@ export function LoginForm() {
           >
             Log in
           </Button>
-        </Item>
+        </Form.Item>
       </Form>
     </Spin>
   )
