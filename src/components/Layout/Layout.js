@@ -5,18 +5,19 @@ import 'antd/dist/antd.css'
 import './Layout.css'
 
 export function Layout() {
-  const { Header, Content, Footer } = AntLayout
   return (
     <AntLayout>
-      <Header>
+      <AntLayout.Header>
         <PageHeader />
-      </Header>
+      </AntLayout.Header>
 
-      <Content>
+      <AntLayout.Content>
         <RouteSwitch />
-      </Content>
+      </AntLayout.Content>
 
-      <Footer>Copyright &copy; 2021 thewizardplusplus</Footer>
+      <AntLayout.Footer>
+        Copyright &copy; 2021 thewizardplusplus
+      </AntLayout.Footer>
     </AntLayout>
   )
 }
