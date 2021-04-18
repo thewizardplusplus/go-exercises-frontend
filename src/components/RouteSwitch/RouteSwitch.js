@@ -1,5 +1,6 @@
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { PrivateRoute } from 'react-auth-kit'
+import { TaskGroup } from '../TaskGroup/TaskGroup.js'
 import { LoginForm } from '../LoginForm/LoginForm.js'
 
 export function RouteSwitch() {
@@ -8,7 +9,7 @@ export function RouteSwitch() {
       <PrivateRoute
         exact
         path="/"
-        component={() => 'Content'}
+        component={() => <TaskGroup />}
         loginPath={'/login'}
       />
 
