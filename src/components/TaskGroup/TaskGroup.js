@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
-import { List, Descriptions, message } from 'antd'
+import { useHistory } from 'react-router-dom'
+import { Button, List, Descriptions, message } from 'antd'
 import { Link } from 'react-router-dom'
 
 function reformatTimestamp(timestamp) {
@@ -46,32 +47,38 @@ export function TaskGroup() {
     })()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const history = useHistory()
   return (
-    <List
-      loading={loading}
-      dataSource={tasks}
-      rowKey="ID"
-      renderItem={task => (
-        <List.Item>
-          <List.Item.Meta
-            title={
-              <Link
-                to={`/tasks/${task.ID}`}
-              >{`#${task.ID} ${task.Title}`}</Link>
-            }
-            description={
-              <Descriptions column={1}>
-                <Descriptions.Item label="Created at">
-                  {reformatTimestamp(task.CreatedAt)}
-                </Descriptions.Item>
-                <Descriptions.Item label="Updated at">
-                  {reformatTimestamp(task.UpdatedAt)}
-                </Descriptions.Item>
-              </Descriptions>
-            }
-          />
-        </List.Item>
-      )}
-    />
+    <>
+      <List
+        loading={loading}
+        dataSource={tasks}
+        rowKey="ID"
+        renderItem={task => (
+          <List.Item>
+            <List.Item.Meta
+              title={
+                <Link
+                  to={`/tasks/${task.ID}`}
+                >{`#${task.ID} ${task.Title}`}</Link>
+              }
+              description={
+                <Descriptions column={1}>
+                  <Descriptions.Item label="Created at">
+                    {reformatTimestamp(task.CreatedAt)}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Updated at">
+                    {reformatTimestamp(task.UpdatedAt)}
+                  </Descriptions.Item>
+                </Descriptions>
+              }
+            />
+          </List.Item>
+        )}
+      />
+      <Button type="primary" block onClick={() => history.push('/tasks/new')}>
+        New task
+      </Button>
+    </>
   )
 }
