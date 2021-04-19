@@ -77,7 +77,25 @@ export function Task() {
           <Tooltip title="Delete">
             <Button
               icon={<DeleteOutlined />}
-              onClick={() => message.info('Delete')}
+              onClick={async () => {
+                setLoading(true)
+
+                try {
+                  const response = await fetch(`/api/v1/tasks/${id}`, {
+                    method: 'DELETE',
+                    headers: { Authorization: authHeader() },
+                  })
+                  if (!response.ok) {
+                    const errMessage = await response.text()
+                    throw new Error(errMessage)
+                  }
+
+                  history.push('/')
+                } catch (exception) {
+                  setLoading(false)
+                  message.error(exception.toString())
+                }
+              }}
             />
           </Tooltip>
         </>
