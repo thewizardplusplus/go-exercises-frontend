@@ -29,6 +29,13 @@ export function RouteSwitch() {
         loginPath={'/login'}
       />
 
+      <PrivateRoute
+        exact
+        path="/tasks/:id/edit"
+        component={() => <TaskForm />}
+        loginPath={'/login'}
+      />
+
       <Route path="/login">
         <LoginForm />
       </Route>

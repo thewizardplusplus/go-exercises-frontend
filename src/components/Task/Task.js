@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
+import { useHistory } from 'react-router-dom'
 import { Card, Descriptions, Tooltip, Button, message } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 
@@ -23,6 +24,7 @@ export function Task() {
   const [task, setTask] = useState(null)
   const { id } = useParams()
   const authHeader = useAuthHeader()
+  const history = useHistory()
 
   useEffect(() => {
     ;(async () => {
@@ -69,7 +71,7 @@ export function Task() {
           <Tooltip title="Edit">
             <Button
               icon={<EditOutlined />}
-              onClick={() => message.info('Edit')}
+              onClick={() => history.push(`/tasks/${id}/edit`)}
             />
           </Tooltip>
           <Tooltip title="Delete">
