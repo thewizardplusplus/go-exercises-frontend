@@ -34,7 +34,7 @@ export function TaskForm() {
           title: task.Title,
           description: task.Description,
           boilerplateCode: task.BoilerplateCode,
-          testCases: task.TestCases,
+          testCases: JSON.stringify(task.TestCases),
         })
       } catch (exception) {
         message.error(exception.toString())
@@ -59,7 +59,10 @@ export function TaskForm() {
                 Authorization: authHeader(),
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify(data),
+              body: JSON.stringify({
+                ...data,
+                testCases: JSON.parse(data.testCases),
+              }),
             })
             if (!response.ok) {
               const errMessage = await response.text()
