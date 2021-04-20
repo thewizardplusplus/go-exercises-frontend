@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader, useAuthUser } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { Card, Tooltip, Button, message } from 'antd'
+import { Card, Space, Tooltip, Button, Tabs, message } from 'antd'
 import { TaskDetails } from '../TaskDetails/TaskDetails.js'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 
@@ -41,15 +41,9 @@ export function Task() {
   return (
     <Card
       loading={loading}
-      title={
-        <>
-          <p>{task?.Title}</p>
-          {task && <TaskDetails task={task} />}
-        </>
-      }
       extra={
         auth().ID === task?.UserID && (
-          <>
+          <Space>
             <Tooltip title="Edit">
               <Button
                 icon={<EditOutlined />}
@@ -80,11 +74,19 @@ export function Task() {
                 }}
               />
             </Tooltip>
-          </>
+          </Space>
         )
       }
     >
-      <p>{task?.Description}</p>
+      <Card.Meta
+        title={task?.Title}
+        description={task && <TaskDetails task={task} />}
+      />
+      <Tabs defaultActiveKey="1">
+        <Tabs.TabPane key="1" tab="Description">
+          {task?.Description}
+        </Tabs.TabPane>
+      </Tabs>
     </Card>
   )
 }
