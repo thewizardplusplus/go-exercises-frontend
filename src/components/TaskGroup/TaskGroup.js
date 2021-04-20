@@ -1,22 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { Button, List, Descriptions, message } from 'antd'
+import { Button, List, message } from 'antd'
 import { Link } from 'react-router-dom'
-
-function reformatTimestamp(timestamp) {
-  const parsedTimestamp = new Date(timestamp)
-  const formatter = new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    timeZoneName: 'short',
-  })
-  return formatter.format(parsedTimestamp)
-}
+import { TaskDetails } from '../TaskDetails/TaskDetails.js'
 
 export function TaskGroup() {
   const [loading, setLoading] = useState(false)
@@ -62,16 +49,7 @@ export function TaskGroup() {
                   to={`/tasks/${task.ID}`}
                 >{`#${task.ID} ${task.Title}`}</Link>
               }
-              description={
-                <Descriptions column={1}>
-                  <Descriptions.Item label="Created at">
-                    {reformatTimestamp(task.CreatedAt)}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Updated at">
-                    {reformatTimestamp(task.UpdatedAt)}
-                  </Descriptions.Item>
-                </Descriptions>
-              }
+              description={<TaskDetails task={task} />}
             />
           </List.Item>
         )}

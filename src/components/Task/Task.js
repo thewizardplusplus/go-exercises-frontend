@@ -2,22 +2,9 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader, useAuthUser } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { Card, Descriptions, Tooltip, Button, message } from 'antd'
+import { Card, Tooltip, Button, message } from 'antd'
+import { TaskDetails } from '../TaskDetails/TaskDetails.js'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
-
-function reformatTimestamp(timestamp) {
-  const parsedTimestamp = new Date(timestamp)
-  const formatter = new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    timeZoneName: 'short',
-  })
-  return formatter.format(parsedTimestamp)
-}
 
 export function Task() {
   const [loading, setLoading] = useState(false)
@@ -57,14 +44,7 @@ export function Task() {
       title={
         <>
           <p>{task?.Title}</p>
-          <Descriptions column={1}>
-            <Descriptions.Item label="Created at">
-              {task && reformatTimestamp(task.CreatedAt)}
-            </Descriptions.Item>
-            <Descriptions.Item label="Updated at">
-              {task && reformatTimestamp(task.UpdatedAt)}
-            </Descriptions.Item>
-          </Descriptions>
+          {task && <TaskDetails task={task} />}
         </>
       }
       extra={
