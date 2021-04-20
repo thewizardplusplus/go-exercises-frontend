@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
 import { Spin, Form, Input, Button, message } from 'antd'
+import './TaskForm.css'
 
 export function TaskForm() {
   const [loading, setLoading] = useState(false)
@@ -91,11 +92,11 @@ export function TaskForm() {
         </Form.Item>
 
         <Form.Item label="Boilerplate code" name="boilerplateCode">
-          <Input.TextArea />
+          <Input.TextArea className="monospace-font" />
         </Form.Item>
 
         <Form.Item label="Test cases" name="testCases">
-          <Input.TextArea />
+          <Input.TextArea className="monospace-font" />
         </Form.Item>
 
         <Form.Item>
