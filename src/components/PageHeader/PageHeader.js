@@ -31,7 +31,7 @@ export function PageHeader() {
         isAuthenticated() && (
           <Tooltip key="2" title="Log out">
             <Button
-              className="page-header-logout-button"
+              className="page-header-log-out-button"
               icon={<LogoutOutlined />}
               onClick={() => signOut()}
             />
