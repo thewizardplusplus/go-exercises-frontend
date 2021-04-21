@@ -37,6 +37,7 @@ export function SolutionForm(props) {
               throw new Error(errMessage)
             }
 
+            props.onSolutionSubmission()
             message.success('Solution submitted')
           } catch (exception) {
             message.error(exception.toString())

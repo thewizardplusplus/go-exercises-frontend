@@ -22,6 +22,7 @@ import './Task.css'
 export function Task() {
   const [loading, setLoading] = useState(false)
   const [task, setTask] = useState(null)
+  const [activeTab, setActiveTab] = useState('1')
   const { id } = useParams()
   const authHeader = useAuthHeader()
   const auth = useAuthUser()
@@ -98,7 +99,12 @@ export function Task() {
       />
       <Row>
         <Col span={12}>
-          <Tabs defaultActiveKey="1">
+          <Tabs
+            activeKey={activeTab}
+            onChange={activeKey => {
+              setActiveTab(activeKey)
+            }}
+          >
             <Tabs.TabPane key="1" tab="Description">
               {task?.Description}
             </Tabs.TabPane>
@@ -118,6 +124,9 @@ export function Task() {
             taskID={id}
             boilerplateCode={task?.BoilerplateCode}
             form={solutionForm}
+            onSolutionSubmission={() => {
+              setActiveTab('2')
+            }}
           />
         </Col>
       </Row>
