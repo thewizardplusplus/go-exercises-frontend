@@ -7,6 +7,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { TaskDetails } from '../TaskDetails/TaskDetails.js'
 import { SolutionGroup } from '../SolutionGroup/SolutionGroup.js'
 import { SolutionForm } from '../SolutionForm/SolutionForm.js'
+import './Task.css'
 
 export function Task() {
   const [loading, setLoading] = useState(false)
