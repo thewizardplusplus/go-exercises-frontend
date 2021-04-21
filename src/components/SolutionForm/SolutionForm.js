@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
-import { Spin, Form, Input, Button, message } from 'antd'
+import { Spin, Form, Input, Row, Col, Button, message } from 'antd'
 import './SolutionForm.css'
 
 export function SolutionForm(props) {
@@ -53,9 +53,23 @@ export function SolutionForm(props) {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" block>
-            Submit
-          </Button>
+          <Row>
+            <Col className="solution-form-reset-button-container" span={12}>
+              <Button
+                block
+                onClick={() => {
+                  props.form.resetFields()
+                }}
+              >
+                Reset
+              </Button>
+            </Col>
+            <Col className="solution-form-submit-button-container" span={12}>
+              <Button type="primary" htmlType="submit" block>
+                Submit
+              </Button>
+            </Col>
+          </Row>
         </Form.Item>
       </Form>
     </Spin>

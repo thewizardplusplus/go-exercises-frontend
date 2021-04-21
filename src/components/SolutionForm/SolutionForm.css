@@ -5,3 +5,11 @@
 .solution-form-monospace-font {
   font-family: monospace;
 }
+
+.solution-form-reset-button-container {
+  padding-right: 4px;
+}
+
+.solution-form-submit-button-container {
+  padding-left: 4px;
+}
