@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
-import { message } from 'antd'
+import { List, Avatar, Typography, message } from 'antd'
+import {
+  CheckOutlined,
+  CloseOutlined,
+  QuestionOutlined,
+} from '@ant-design/icons'
+import './SolutionGroup.css'
 
 export function SolutionGroup(props) {
   const [loading, setLoading] = useState(false)
@@ -35,5 +41,40 @@ export function SolutionGroup(props) {
     })()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return 'Content'
+  return (
+    <List
+      loading={loading}
+      dataSource={solutions}
+      rowKey="ID"
+      renderItem={solution => (
+        <List.Item>
+          <List.Item.Meta
+            avatar={
+              <Avatar
+                className="solution-avatar"
+                icon={
+                  solution.IsCorrect ? (
+                    // success
+                    <Typography.Text type="success">
+                      <CheckOutlined />
+                    </Typography.Text>
+                  ) : Object.keys(solution.Result).length !== 0 ? (
+                    // failure
+                    <Typography.Text type="success">
+                      <CloseOutlined />
+                    </Typography.Text>
+                  ) : (
+                    // in progress
+                    <QuestionOutlined />
+                  )
+                }
+              />
+            }
+            title={`#${solution.ID}`}
+            description="Content"
+          />
+        </List.Item>
+      )}
+    />
+  )
 }
