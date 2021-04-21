@@ -88,15 +88,21 @@ export function TaskForm() {
         </Form.Item>
 
         <Form.Item label="Description" name="description">
-          <Input.TextArea />
+          <Input.TextArea autoSize={{ minRows: 3 }} />
         </Form.Item>
 
         <Form.Item label="Boilerplate code" name="boilerplateCode">
-          <Input.TextArea className="monospace-font" />
+          <Input.TextArea
+            className="task-form-monospace-font"
+            autoSize={{ minRows: 3 }}
+          />
         </Form.Item>
 
         <Form.Item label="Test cases" name="testCases">
-          <Input.TextArea className="monospace-font" />
+          <Input.TextArea
+            className="task-form-monospace-font"
+            autoSize={{ minRows: 3 }}
+          />
         </Form.Item>
 
         <Form.Item>
