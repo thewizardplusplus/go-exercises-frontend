@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { Button, List, message } from 'antd'
+import { List, Button, message } from 'antd'
 import { Link } from 'react-router-dom'
 import { TaskDetails } from '../TaskDetails/TaskDetails.js'
+import './TaskGroup.css'
 
 export function TaskGroup() {
   const [loading, setLoading] = useState(false)
@@ -38,6 +39,8 @@ export function TaskGroup() {
   return (
     <>
       <List
+        className="task-group"
+        bordered={true}
         loading={loading}
         dataSource={tasks}
         rowKey="ID"
@@ -54,7 +57,12 @@ export function TaskGroup() {
           </List.Item>
         )}
       />
-      <Button type="primary" block onClick={() => history.push('/tasks/new')}>
+      <Button
+        className="task-group-new-task-button"
+        type="primary"
+        block
+        onClick={() => history.push('/tasks/new')}
+      >
         New task
       </Button>
     </>
