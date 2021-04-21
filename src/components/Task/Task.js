@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader, useAuthUser } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { Card, Space, Tooltip, Button, Tabs, message } from 'antd'
+import { Card, Space, Tooltip, Button, Row, Col, Tabs, message } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { TaskDetails } from '../TaskDetails/TaskDetails.js'
 import { SolutionGroup } from '../SolutionGroup/SolutionGroup.js'
+import { SolutionForm } from '../SolutionForm/SolutionForm.js'
 
 export function Task() {
   const [loading, setLoading] = useState(false)
@@ -83,14 +84,21 @@ export function Task() {
         title={`#${id} ${task?.Title}`}
         description={task && <TaskDetails task={task} />}
       />
-      <Tabs defaultActiveKey="1">
-        <Tabs.TabPane key="1" tab="Description">
-          {task?.Description}
-        </Tabs.TabPane>
-        <Tabs.TabPane key="2" tab="Solutions">
-          <SolutionGroup taskID={id} />
-        </Tabs.TabPane>
-      </Tabs>
+      <Row>
+        <Col span={12}>
+          <Tabs defaultActiveKey="1">
+            <Tabs.TabPane key="1" tab="Description">
+              {task?.Description}
+            </Tabs.TabPane>
+            <Tabs.TabPane key="2" tab="Solutions">
+              <SolutionGroup taskID={id} />
+            </Tabs.TabPane>
+          </Tabs>
+        </Col>
+        <Col span={12}>
+          <SolutionForm taskID={id} boilerplateCode={task?.BoilerplateCode} />
+        </Col>
+      </Row>
     </Card>
   )
 }
