@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
-import { List, Avatar, Typography, message } from 'antd'
+import { Button, List, Avatar, Typography, message } from 'antd'
 import {
   CheckOutlined,
   CloseOutlined,
@@ -14,74 +14,83 @@ export function SolutionGroup(props) {
   const [solutions, setSolutions] = useState([])
   const authHeader = useAuthHeader()
 
-  useEffect(() => {
-    ;(async () => {
-      setLoading(true)
+  const loadSolutions = async () => {
+    setLoading(true)
 
-      try {
-        const response = await fetch(
-          `/api/v1/tasks/${props.taskID}/solutions/`,
-          {
-            method: 'GET',
-            headers: { Authorization: authHeader() },
-          },
-        )
-        if (!response.ok) {
-          const errMessage = await response.text()
-          throw new Error(errMessage)
-        }
-
-        const solutions = await response.json()
-        solutions.sort((solutionOne, solutionTwo) => {
-          const timestampOne = new Date(solutionOne.CreatedAt).getTime()
-          const timestampTwo = new Date(solutionTwo.CreatedAt).getTime()
-          // descending sort
-          return timestampTwo - timestampOne
-        })
-
-        setSolutions(solutions)
-      } catch (exception) {
-        message.error(exception.toString())
-      } finally {
-        setLoading(false)
+    try {
+      const response = await fetch(`/api/v1/tasks/${props.taskID}/solutions/`, {
+        method: 'GET',
+        headers: { Authorization: authHeader() },
+      })
+      if (!response.ok) {
+        const errMessage = await response.text()
+        throw new Error(errMessage)
       }
-    })()
+
+      const solutions = await response.json()
+      solutions.sort((solutionOne, solutionTwo) => {
+        const timestampOne = new Date(solutionOne.CreatedAt).getTime()
+        const timestampTwo = new Date(solutionTwo.CreatedAt).getTime()
+        // descending sort
+        return timestampTwo - timestampOne
+      })
+
+      setSolutions(solutions)
+    } catch (exception) {
+      message.error(exception.toString())
+    } finally {
+      setLoading(false)
+    }
+  }
+  useEffect(() => {
+    loadSolutions()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <List
-      loading={loading}
-      dataSource={solutions}
-      rowKey="ID"
-      renderItem={solution => (
-        <List.Item>
-          <List.Item.Meta
-            avatar={
-              <Avatar
-                className="solution-avatar"
-                icon={
-                  solution.IsCorrect ? (
-                    // success
-                    <Typography.Text type="success">
-                      <CheckOutlined />
-                    </Typography.Text>
-                  ) : Object.keys(solution.Result).length !== 0 ? (
-                    // failure
-                    <Typography.Text type="success">
-                      <CloseOutlined />
-                    </Typography.Text>
-                  ) : (
-                    // in progress
-                    <QuestionOutlined />
-                  )
-                }
-              />
-            }
-            title={`#${solution.ID}`}
-            description={<SolutionDetails solution={solution} />}
-          />
-        </List.Item>
-      )}
-    />
+    <>
+      <Button
+        block
+        disabled={loading}
+        onClick={() => {
+          loadSolutions()
+        }}
+      >
+        Update
+      </Button>
+      <List
+        loading={loading}
+        dataSource={solutions}
+        rowKey="ID"
+        renderItem={solution => (
+          <List.Item>
+            <List.Item.Meta
+              avatar={
+                <Avatar
+                  className="solution-group-solution-avatar"
+                  icon={
+                    solution.IsCorrect ? (
+                      // success
+                      <Typography.Text type="success">
+                        <CheckOutlined />
+                      </Typography.Text>
+                    ) : Object.keys(solution.Result).length !== 0 ? (
+                      // failure
+                      <Typography.Text type="success">
+                        <CloseOutlined />
+                      </Typography.Text>
+                    ) : (
+                      // in progress
+                      <QuestionOutlined />
+                    )
+                  }
+                />
+              }
+              title={`#${solution.ID}`}
+              description={<SolutionDetails solution={solution} />}
+            />
+          </List.Item>
+        )}
+      />
+    </>
   )
 }
