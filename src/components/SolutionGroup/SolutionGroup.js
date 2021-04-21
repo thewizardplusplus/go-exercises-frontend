@@ -85,7 +85,14 @@ export function SolutionGroup(props) {
                   }
                 />
               }
-              title={`#${solution.ID}`}
+              title={
+                <>
+                  {`#${solution.ID}`}
+                  <Typography.Text code ellipsis={true}>
+                    {solution.Code.replace(/\s+/g, ' ')}
+                  </Typography.Text>
+                </>
+              }
               description={<SolutionDetails solution={solution} />}
             />
           </List.Item>
