@@ -6,6 +6,7 @@ import {
   CloseOutlined,
   QuestionOutlined,
 } from '@ant-design/icons'
+import { SolutionDetails } from '../SolutionDetails/SolutionDetails.js'
 import './SolutionGroup.css'
 
 export function SolutionGroup(props) {
@@ -32,7 +33,6 @@ export function SolutionGroup(props) {
 
         const solutions = await response.json()
         setSolutions(solutions)
-        console.log(solutions)
       } catch (exception) {
         message.error(exception.toString())
       } finally {
@@ -71,7 +71,7 @@ export function SolutionGroup(props) {
               />
             }
             title={`#${solution.ID}`}
-            description="Content"
+            description={<SolutionDetails solution={solution} />}
           />
         </List.Item>
       )}
