@@ -86,12 +86,19 @@ export function SolutionGroup(props) {
                 />
               }
               title={
-                <>
+                <Button
+                  className="solution-group-solution-button"
+                  type="text"
+                  block
+                  onClick={() => {
+                    props.onSolutionSelection(solution)
+                  }}
+                >
                   {`#${solution.ID}`}
                   <Typography.Text code ellipsis={true}>
                     {solution.Code.replace(/\s+/g, ' ')}
                   </Typography.Text>
-                </>
+                </Button>
               }
               description={<SolutionDetails solution={solution} />}
             />

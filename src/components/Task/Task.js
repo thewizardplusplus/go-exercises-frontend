@@ -2,7 +2,17 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader, useAuthUser } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { Card, Space, Tooltip, Button, Row, Col, Tabs, message } from 'antd'
+import {
+  Form,
+  Card,
+  Space,
+  Tooltip,
+  Button,
+  Row,
+  Col,
+  Tabs,
+  message,
+} from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { TaskDetails } from '../TaskDetails/TaskDetails.js'
 import { SolutionGroup } from '../SolutionGroup/SolutionGroup.js'
@@ -16,6 +26,7 @@ export function Task() {
   const authHeader = useAuthHeader()
   const auth = useAuthUser()
   const history = useHistory()
+  const [solutionForm] = Form.useForm()
 
   useEffect(() => {
     ;(async () => {
@@ -92,12 +103,22 @@ export function Task() {
               {task?.Description}
             </Tabs.TabPane>
             <Tabs.TabPane key="2" tab="Solutions">
-              <SolutionGroup taskID={id} />
+              <SolutionGroup
+                taskID={id}
+                onSolutionSelection={solution => {
+                  solutionForm.setFieldsValue({ code: solution.Code })
+                  window.scroll(0, 0)
+                }}
+              />
             </Tabs.TabPane>
           </Tabs>
         </Col>
         <Col span={12}>
-          <SolutionForm taskID={id} boilerplateCode={task?.BoilerplateCode} />
+          <SolutionForm
+            taskID={id}
+            boilerplateCode={task?.BoilerplateCode}
+            form={solutionForm}
+          />
         </Col>
       </Row>
     </Card>

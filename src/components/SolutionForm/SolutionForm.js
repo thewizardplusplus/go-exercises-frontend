@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
 import { Spin, Form, Input, Button, message } from 'antd'
 import './SolutionForm.css'
@@ -7,11 +7,16 @@ export function SolutionForm(props) {
   const [loading, setLoading] = useState(false)
   const authHeader = useAuthHeader()
 
+  useEffect(() => {
+    props.form.resetFields()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <Spin spinning={loading}>
       <Form
         className="solution-form"
         initialValues={{ code: props.boilerplateCode }}
+        form={props.form}
         onFinish={async data => {
           setLoading(true)
 
