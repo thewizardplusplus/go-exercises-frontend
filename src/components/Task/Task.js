@@ -79,7 +79,7 @@ export function Task() {
       }
     >
       <Card.Meta
-        title={task?.Title}
+        title={`#${id} ${task?.Title}`}
         description={task && <TaskDetails task={task} />}
       />
       <Tabs defaultActiveKey="1">
