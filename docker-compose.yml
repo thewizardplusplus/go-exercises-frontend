@@ -1,0 +1,12 @@
+version: '3'
+services:
+  go-exercises-frontend:
+    build: .
+    volumes:
+      - ./build:/node/src/go-exercises-frontend/build-external
+    command:
+      - cp
+      - --recursive
+      - --no-target-directory
+      - /node/src/go-exercises-frontend/build
+      - /node/src/go-exercises-frontend/build-external
