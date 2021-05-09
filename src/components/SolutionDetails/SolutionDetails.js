@@ -1,5 +1,6 @@
 import { ItemDetails } from '../ItemDetails/ItemDetails.js'
 import { Descriptions, Typography, Alert } from 'antd'
+import './SolutionDetails.css'
 
 export function SolutionDetails(props) {
   return (
@@ -11,7 +12,15 @@ export function SolutionDetails(props) {
             <Descriptions.Item
               label={<Typography.Text type="success">Input</Typography.Text>}
             >
-              <Alert type="success" message={props.solution.Result.Input} />
+              <Alert
+                className="solution-details-alert"
+                type="success"
+                message={
+                  <pre>
+                    <code>{props.solution.Result.Input}</code>
+                  </pre>
+                }
+              />
             </Descriptions.Item>
           )}
 
@@ -24,8 +33,13 @@ export function SolutionDetails(props) {
               }
             >
               <Alert
+                className="solution-details-alert"
                 type="success"
-                message={props.solution.Result.ExpectedOutput}
+                message={
+                  <pre>
+                    <code>{props.solution.Result.ExpectedOutput}</code>
+                  </pre>
+                }
               />
             </Descriptions.Item>
           )}
@@ -37,8 +51,13 @@ export function SolutionDetails(props) {
               }
             >
               <Alert
+                className="solution-details-alert"
                 type="error"
-                message={props.solution.Result.ActualOutput}
+                message={
+                  <pre>
+                    <code>{props.solution.Result.ActualOutput}</code>
+                  </pre>
+                }
               />
             </Descriptions.Item>
           )}
