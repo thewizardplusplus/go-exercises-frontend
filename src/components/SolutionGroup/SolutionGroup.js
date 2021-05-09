@@ -68,7 +68,7 @@ export function SolutionGroup(props) {
                       </Typography.Text>
                     ) : Object.keys(solution.Result).length !== 0 ? (
                       // failure
-                      <Typography.Text type="success">
+                      <Typography.Text type="danger">
                         <CloseOutlined />
                       </Typography.Text>
                     ) : (
