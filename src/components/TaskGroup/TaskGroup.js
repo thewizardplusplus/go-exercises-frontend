@@ -12,14 +12,18 @@ export function TaskGroup() {
   const [tasks, setTasks] = useState([])
   const authHeader = useAuthHeader()
 
-  const loadTasks = async () => {
+  const pageSize = 5
+  const loadTasks = async page => {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/v1/tasks/', {
-        method: 'GET',
-        headers: { Authorization: authHeader() },
-      })
+      const response = await fetch(
+        `/api/v1/tasks/?pageSize=${pageSize}&page=${page}`,
+        {
+          method: 'GET',
+          headers: { Authorization: authHeader() },
+        },
+      )
       if (!response.ok) {
         const errMessage = await response.text()
         throw new Error(errMessage)
@@ -34,7 +38,7 @@ export function TaskGroup() {
     }
   }
   useEffect(() => {
-    loadTasks()
+    loadTasks(1)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const history = useHistory()
@@ -69,6 +73,13 @@ export function TaskGroup() {
             />
           </List.Item>
         )}
+        pagination={{
+          total: Number.POSITIVE_INFINITY,
+          showSizeChanger: false,
+          onChange: page => {
+            loadTasks(page)
+          },
+        }}
       />
       <Button
         className="task-group-new-task-button"
