@@ -12,28 +12,29 @@ export function TaskGroup() {
   const [tasks, setTasks] = useState([])
   const authHeader = useAuthHeader()
 
-  useEffect(() => {
-    ;(async () => {
-      setLoading(true)
+  const loadTasks = async () => {
+    setLoading(true)
 
-      try {
-        const response = await fetch('/api/v1/tasks/', {
-          method: 'GET',
-          headers: { Authorization: authHeader() },
-        })
-        if (!response.ok) {
-          const errMessage = await response.text()
-          throw new Error(errMessage)
-        }
-
-        const tasks = await response.json()
-        setTasks(tasks)
-      } catch (exception) {
-        message.error(exception.toString())
-      } finally {
-        setLoading(false)
+    try {
+      const response = await fetch('/api/v1/tasks/', {
+        method: 'GET',
+        headers: { Authorization: authHeader() },
+      })
+      if (!response.ok) {
+        const errMessage = await response.text()
+        throw new Error(errMessage)
       }
-    })()
+
+      const tasks = await response.json()
+      setTasks(tasks)
+    } catch (exception) {
+      message.error(exception.toString())
+    } finally {
+      setLoading(false)
+    }
+  }
+  useEffect(() => {
+    loadTasks()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const history = useHistory()
