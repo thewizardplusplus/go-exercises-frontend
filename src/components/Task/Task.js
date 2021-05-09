@@ -17,6 +17,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { StatusSign } from '../StatusSign/StatusSign.js'
 import { ItemDetails } from '../ItemDetails/ItemDetails.js'
 import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
 import { SolutionGroup } from '../SolutionGroup/SolutionGroup.js'
 import { SolutionForm } from '../SolutionForm/SolutionForm.js'
 import './Task.css'
@@ -119,7 +120,9 @@ export function Task() {
             }}
           >
             <Tabs.TabPane key="1" tab="Description">
-              <ReactMarkdown>{task?.Description}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[gfm]}>
+                {task?.Description}
+              </ReactMarkdown>
             </Tabs.TabPane>
             <Tabs.TabPane key="2" tab="Solutions">
               <SolutionGroup
