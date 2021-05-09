@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { List, Button, message } from 'antd'
 import { Link } from 'react-router-dom'
 import { StatusSign } from '../StatusSign/StatusSign.js'
-import { TaskDetails } from '../TaskDetails/TaskDetails.js'
+import { ItemDetails } from '../ItemDetails/ItemDetails.js'
 import './TaskGroup.css'
 
 export function TaskGroup() {
@@ -64,7 +64,7 @@ export function TaskGroup() {
                   to={`/tasks/${task.ID}`}
                 >{`#${task.ID} ${task.Title}`}</Link>
               }
-              description={<TaskDetails task={task} />}
+              description={<ItemDetails item={task} />}
             />
           </List.Item>
         )}

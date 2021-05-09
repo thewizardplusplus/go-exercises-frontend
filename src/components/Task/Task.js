@@ -15,7 +15,7 @@ import {
 } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { StatusSign } from '../StatusSign/StatusSign.js'
-import { TaskDetails } from '../TaskDetails/TaskDetails.js'
+import { ItemDetails } from '../ItemDetails/ItemDetails.js'
 import { SolutionGroup } from '../SolutionGroup/SolutionGroup.js'
 import { SolutionForm } from '../SolutionForm/SolutionForm.js'
 import './Task.css'
@@ -107,7 +107,7 @@ export function Task() {
           />
         }
         title={`#${id} ${task?.Title}`}
-        description={task && <TaskDetails task={task} />}
+        description={task && <ItemDetails item={task} />}
       />
       <Row>
         <Col span={12}>
