@@ -11,6 +11,7 @@ import {
   Row,
   Col,
   Tabs,
+  Typography,
   message,
 } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
@@ -120,9 +121,11 @@ export function Task() {
             }}
           >
             <Tabs.TabPane key="1" tab="Description">
-              <ReactMarkdown remarkPlugins={[gfm]}>
-                {task?.Description}
-              </ReactMarkdown>
+              <Typography.Paragraph>
+                <ReactMarkdown remarkPlugins={[gfm]}>
+                  {task?.Description}
+                </ReactMarkdown>
+              </Typography.Paragraph>
             </Tabs.TabPane>
             <Tabs.TabPane key="2" tab="Solutions">
               <SolutionGroup
