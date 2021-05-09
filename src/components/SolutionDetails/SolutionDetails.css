@@ -1,0 +1,8 @@
+.solution-details-preformatted-paragraph {
+  margin-top: 8px;
+  margin-bottom: 0 !important;
+}
+
+.solution-details-preformatted-paragraph pre {
+  margin: 0 !important;
+}
