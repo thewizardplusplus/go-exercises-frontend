@@ -12,7 +12,10 @@
 
 .ant-page-header-heading-title {
   margin-right: 16px !important;
-  color: #f0f2f5 !important;
+}
+
+.ant-page-header-heading-title a {
+  color: #f0f2f5;
 }
 
 .ant-page-header-heading-tags .ant-tag {
