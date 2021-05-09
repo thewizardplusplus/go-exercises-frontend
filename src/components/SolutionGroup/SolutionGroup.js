@@ -28,13 +28,6 @@ export function SolutionGroup(props) {
       }
 
       const solutions = await response.json()
-      solutions.sort((solutionOne, solutionTwo) => {
-        const timestampOne = new Date(solutionOne.CreatedAt).getTime()
-        const timestampTwo = new Date(solutionTwo.CreatedAt).getTime()
-        // descending sort
-        return timestampTwo - timestampOne
-      })
-
       setSolutions(solutions)
     } catch (exception) {
       message.error(exception.toString())
