@@ -23,6 +23,9 @@ export function TaskDetails(props) {
       <Descriptions.Item label="Updated at">
         {reformatTimestamp(props.task.UpdatedAt)}
       </Descriptions.Item>
+      <Descriptions.Item label="Author">
+        {props.task.User.Username}
+      </Descriptions.Item>
     </Descriptions>
   )
 }
