@@ -25,6 +25,10 @@ export function SolutionDetails(props) {
         {reformatTimestamp(props.solution.UpdatedAt)}
       </Descriptions.Item>
 
+      <Descriptions.Item label="Author">
+        {props.solution.User.Username}
+      </Descriptions.Item>
+
       {props.solution.Result.Input && (
         <Descriptions.Item
           label={<Typography.Text type="success">Input</Typography.Text>}
