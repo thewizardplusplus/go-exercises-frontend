@@ -35,7 +35,13 @@ export function ItemDetails(props) {
         {props.item.User.Username}
       </Descriptions.Item>
 
-      {props.additionDetails}
+      {(props.additionDetails || [])
+        .filter(data => data)
+        .map(data => (
+          <Descriptions.Item key={data.key} label={data.label}>
+            {data.content}
+          </Descriptions.Item>
+        ))}
     </Descriptions>
   )
 }
