@@ -8,16 +8,21 @@ import './SolutionGroup.css'
 export function SolutionGroup(props) {
   const [loading, setLoading] = useState(false)
   const [solutions, setSolutions] = useState([])
+  const [page, setPage] = useState(1)
   const authHeader = useAuthHeader()
 
-  const loadSolutions = async () => {
+  const pageSize = 5
+  const loadSolutions = async page => {
     setLoading(true)
 
     try {
-      const response = await fetch(`/api/v1/tasks/${props.taskID}/solutions/`, {
-        method: 'GET',
-        headers: { Authorization: authHeader() },
-      })
+      const response = await fetch(
+        `/api/v1/tasks/${props.taskID}/solutions/?pageSize=${pageSize}&page=${page}`,
+        {
+          method: 'GET',
+          headers: { Authorization: authHeader() },
+        },
+      )
       if (!response.ok) {
         const errMessage = await response.text()
         throw new Error(errMessage)
@@ -25,6 +30,7 @@ export function SolutionGroup(props) {
 
       const solutions = await response.json()
       setSolutions(solutions)
+      setPage(page)
     } catch (exception) {
       message.error(exception.toString())
     } finally {
@@ -32,7 +38,7 @@ export function SolutionGroup(props) {
     }
   }
   useEffect(() => {
-    loadSolutions()
+    loadSolutions(page)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -41,7 +47,7 @@ export function SolutionGroup(props) {
         block
         disabled={loading}
         onClick={() => {
-          loadSolutions()
+          loadSolutions(1)
         }}
       >
         Update
@@ -83,6 +89,14 @@ export function SolutionGroup(props) {
             />
           </List.Item>
         )}
+        pagination={{
+          current: page,
+          total: Number.POSITIVE_INFINITY,
+          showSizeChanger: false,
+          onChange: page => {
+            loadSolutions(page)
+          },
+        }}
       />
     </>
   )
