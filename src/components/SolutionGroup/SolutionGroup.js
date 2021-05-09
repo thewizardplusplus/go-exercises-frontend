@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
-import { Button, List, Avatar, Typography, message } from 'antd'
-import {
-  CheckOutlined,
-  CloseOutlined,
-  QuestionOutlined,
-} from '@ant-design/icons'
+import { Button, List, Typography, message } from 'antd'
+import { StatusSign } from '../StatusSign/StatusSign.js'
 import { SolutionDetails } from '../SolutionDetails/SolutionDetails.js'
 import './SolutionGroup.css'
 
@@ -58,23 +54,13 @@ export function SolutionGroup(props) {
           <List.Item>
             <List.Item.Meta
               avatar={
-                <Avatar
-                  className="solution-group-solution-avatar"
-                  icon={
-                    solution.IsCorrect ? (
-                      // success
-                      <Typography.Text type="success">
-                        <CheckOutlined />
-                      </Typography.Text>
-                    ) : Object.keys(solution.Result).length !== 0 ? (
-                      // failure
-                      <Typography.Text type="danger">
-                        <CloseOutlined />
-                      </Typography.Text>
-                    ) : (
-                      // in progress
-                      <QuestionOutlined />
-                    )
+                <StatusSign
+                  status={
+                    solution.IsCorrect
+                      ? 'success'
+                      : Object.keys(solution.Result).length !== 0
+                      ? 'failure'
+                      : 'unknown'
                   }
                 />
               }

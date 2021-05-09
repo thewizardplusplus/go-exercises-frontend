@@ -3,11 +3,6 @@
   border: 1px solid #f0f0f0;
 }
 
-.task-group-task-avatar {
-  color: rgba(0, 0, 0, 0.85) !important;
-  background: #f0f2f5 !important;
-}
-
 .task-group-new-task-button {
   margin-top: 16px;
 }

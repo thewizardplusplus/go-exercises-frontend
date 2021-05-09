@@ -8,20 +8,13 @@ import {
   Space,
   Tooltip,
   Button,
-  Avatar,
-  Typography,
   Row,
   Col,
   Tabs,
   message,
 } from 'antd'
-import {
-  EditOutlined,
-  DeleteOutlined,
-  CheckOutlined,
-  CloseOutlined,
-  QuestionOutlined,
-} from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { StatusSign } from '../StatusSign/StatusSign.js'
 import { TaskDetails } from '../TaskDetails/TaskDetails.js'
 import { SolutionGroup } from '../SolutionGroup/SolutionGroup.js'
 import { SolutionForm } from '../SolutionForm/SolutionForm.js'
@@ -103,23 +96,13 @@ export function Task() {
     >
       <Card.Meta
         avatar={
-          <Avatar
-            className="task-group-task-avatar"
-            icon={
-              task?.Status === 2 ? (
-                // solved
-                <Typography.Text type="success">
-                  <CheckOutlined />
-                </Typography.Text>
-              ) : task?.Status === 1 ? (
-                // not solved
-                <Typography.Text type="danger">
-                  <CloseOutlined />
-                </Typography.Text>
-              ) : (
-                // no solutions
-                <QuestionOutlined />
-              )
+          <StatusSign
+            status={
+              task?.Status === 2
+                ? 'success'
+                : task?.Status === 1
+                ? 'failure'
+                : 'unknown'
             }
           />
         }
