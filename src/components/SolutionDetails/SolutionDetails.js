@@ -1,6 +1,6 @@
 import { ItemDetails } from '../ItemDetails/ItemDetails.js'
-import { Descriptions, Typography, Alert } from 'antd'
-import './SolutionDetails.css'
+import { Descriptions, Typography } from 'antd'
+import { TestCase } from '../TestCase/TestCase.js'
 
 export function SolutionDetails(props) {
   return (
@@ -12,14 +12,10 @@ export function SolutionDetails(props) {
             <Descriptions.Item
               label={<Typography.Text type="success">Input</Typography.Text>}
             >
-              <Alert
-                className="solution-details-alert"
+              <TestCase
                 type="success"
-                message={
-                  <pre>
-                    <code>{props.solution.Result.Input}</code>
-                  </pre>
-                }
+                message={props.solution.Result.Input}
+                preformatted
               />
             </Descriptions.Item>
           )}
@@ -32,14 +28,10 @@ export function SolutionDetails(props) {
                 </Typography.Text>
               }
             >
-              <Alert
-                className="solution-details-alert"
+              <TestCase
                 type="success"
-                message={
-                  <pre>
-                    <code>{props.solution.Result.ExpectedOutput}</code>
-                  </pre>
-                }
+                message={props.solution.Result.ExpectedOutput}
+                preformatted
               />
             </Descriptions.Item>
           )}
@@ -50,14 +42,10 @@ export function SolutionDetails(props) {
                 <Typography.Text type="danger">Actual output</Typography.Text>
               }
             >
-              <Alert
-                className="solution-details-alert"
+              <TestCase
                 type="error"
-                message={
-                  <pre>
-                    <code>{props.solution.Result.ActualOutput}</code>
-                  </pre>
-                }
+                message={props.solution.Result.ActualOutput}
+                preformatted
               />
             </Descriptions.Item>
           )}
@@ -68,7 +56,10 @@ export function SolutionDetails(props) {
                 <Typography.Text type="danger">Error message</Typography.Text>
               }
             >
-              <Alert type="error" message={props.solution.Result.ErrMessage} />
+              <TestCase
+                type="error"
+                message={props.solution.Result.ErrMessage}
+              />
             </Descriptions.Item>
           )}
         </>
