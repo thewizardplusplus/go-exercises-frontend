@@ -1,4 +1,5 @@
 import { Descriptions, Typography, Alert } from 'antd'
+import './SolutionDetails.css'
 
 function reformatTimestamp(timestamp) {
   const parsedTimestamp = new Date(timestamp)
@@ -16,7 +17,12 @@ function reformatTimestamp(timestamp) {
 
 export function SolutionDetails(props) {
   return (
-    <Descriptions column={1} bordered={true} size="small">
+    <Descriptions
+      className="solution-details-descriptions"
+      column={1}
+      bordered={true}
+      size="small"
+    >
       <Descriptions.Item label="Created at">
         {reformatTimestamp(props.solution.CreatedAt)}
       </Descriptions.Item>
