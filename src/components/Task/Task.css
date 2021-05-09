@@ -1,3 +1,8 @@
 .ant-card-meta {
   margin: 0 !important;
 }
+
+.task-group-task-avatar {
+  color: rgba(0, 0, 0, 0.85) !important;
+  background: #f0f2f5 !important;
+}
