@@ -11,14 +11,12 @@ import {
   Row,
   Col,
   Tabs,
-  Typography,
   message,
 } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { StatusSign } from '../StatusSign/StatusSign.js'
 import { ItemDetails } from '../ItemDetails/ItemDetails.js'
-import ReactMarkdown from 'react-markdown'
-import gfm from 'remark-gfm'
+import { Markdown } from '../Markdown/Markdown.js'
 import { SolutionGroup } from '../SolutionGroup/SolutionGroup.js'
 import { SolutionForm } from '../SolutionForm/SolutionForm.js'
 import './Task.css'
@@ -121,11 +119,7 @@ export function Task() {
             }}
           >
             <Tabs.TabPane key="1" tab="Description">
-              <Typography.Paragraph>
-                <ReactMarkdown remarkPlugins={[gfm]}>
-                  {task?.Description}
-                </ReactMarkdown>
-              </Typography.Paragraph>
+              <Markdown content={task?.Description} />
             </Tabs.TabPane>
             <Tabs.TabPane key="2" tab="Solutions">
               <SolutionGroup
