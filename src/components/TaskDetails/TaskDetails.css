@@ -1,0 +1,9 @@
+.task-details-descriptions th {
+  width: 150px;
+}
+
+.task-details-descriptions th,
+.task-details-descriptions td {
+  padding: 4px 8px !important;
+  color: rgba(0, 0, 0, 0.45);
+}
