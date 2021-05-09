@@ -12,14 +12,14 @@ export function PageHeader() {
   return (
     <AntPageHeader
       backIcon={
-        <Tooltip title="Go home">
+        <Tooltip title="Homepage">
           <Link to="/">
             <HomeOutlined />
           </Link>
         </Tooltip>
       }
       title={
-        <Tooltip title="Go home">
+        <Tooltip title="Homepage">
           <Link to="/">{'go-exercises'}</Link>
         </Tooltip>
       }
