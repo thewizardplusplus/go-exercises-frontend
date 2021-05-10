@@ -48,7 +48,19 @@ export function SolutionForm(props) {
         }}
       >
         <Form.Item name="code">
-          <Editor name="code" mode="golang" />
+          <Editor
+            name="code"
+            mode="golang"
+            commands={[
+              {
+                name: 'format',
+                bindKey: { win: 'Ctrl-S', mac: 'Command-S' },
+                exec: editor => {
+                  console.log('format')
+                },
+              },
+            ]}
+          />
         </Form.Item>
 
         <Form.Item>
