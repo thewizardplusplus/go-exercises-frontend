@@ -3,7 +3,11 @@ import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
 import { Spin, Form, Input, Button, message } from 'antd'
-import './TaskForm.css'
+import AceEditor from 'react-ace'
+import 'ace-builds/src-noconflict/mode-markdown'
+import 'ace-builds/src-noconflict/mode-golang'
+import 'ace-builds/src-noconflict/mode-json'
+import 'ace-builds/src-noconflict/theme-monokai'
 
 export function TaskForm() {
   const [loading, setLoading] = useState(false)
@@ -88,20 +92,47 @@ export function TaskForm() {
         </Form.Item>
 
         <Form.Item label="Description" name="description">
-          <Input.TextArea autoSize={{ minRows: 3 }} />
+          <AceEditor
+            name="description"
+            mode="markdown"
+            theme="monokai"
+            width={'100%'}
+            minLines={5}
+            maxLines={Number.POSITIVE_INFINITY}
+            fontSize={16}
+            tabSize={2}
+            wrapEnabled={true}
+            setOptions={{ showInvisibles: true, indentedSoftWrap: false }}
+          />
         </Form.Item>
 
         <Form.Item label="Boilerplate code" name="boilerplateCode">
-          <Input.TextArea
-            className="task-form-monospace-font"
-            autoSize={{ minRows: 3 }}
+          <AceEditor
+            name="boilerplateCode"
+            mode="golang"
+            theme="monokai"
+            width={'100%'}
+            minLines={5}
+            maxLines={Number.POSITIVE_INFINITY}
+            fontSize={16}
+            tabSize={2}
+            wrapEnabled={true}
+            setOptions={{ showInvisibles: true, indentedSoftWrap: false }}
           />
         </Form.Item>
 
         <Form.Item label="Test cases" name="testCases">
-          <Input.TextArea
-            className="task-form-monospace-font"
-            autoSize={{ minRows: 3 }}
+          <AceEditor
+            name="testCases"
+            mode="json"
+            theme="monokai"
+            width={'100%'}
+            minLines={5}
+            maxLines={Number.POSITIVE_INFINITY}
+            fontSize={16}
+            tabSize={2}
+            wrapEnabled={true}
+            setOptions={{ showInvisibles: true, indentedSoftWrap: false }}
           />
         </Form.Item>
 
