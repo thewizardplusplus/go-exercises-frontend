@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
-import { Spin, Form, Input, Row, Col, Button, message } from 'antd'
+import { Spin, Form, Row, Col, Button, message } from 'antd'
+import AceEditor from 'react-ace'
+import 'ace-builds/src-noconflict/mode-golang'
+import 'ace-builds/src-noconflict/theme-monokai'
 import './SolutionForm.css'
 
 export function SolutionForm(props) {
@@ -47,9 +50,17 @@ export function SolutionForm(props) {
         }}
       >
         <Form.Item name="code">
-          <Input.TextArea
-            className="solution-form-monospace-font"
-            autoSize={{ minRows: 3 }}
+          <AceEditor
+            name="code"
+            mode="golang"
+            theme="monokai"
+            width={'100%'}
+            minLines={5}
+            maxLines={Number.POSITIVE_INFINITY}
+            fontSize={16}
+            tabSize={2}
+            wrapEnabled={true}
+            setOptions={{ showInvisibles: true, indentedSoftWrap: false }}
           />
         </Form.Item>
 
