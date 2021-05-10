@@ -55,8 +55,30 @@ export function SolutionForm(props) {
               {
                 name: 'format',
                 bindKey: { win: 'Ctrl-S', mac: 'Command-S' },
-                exec: editor => {
-                  console.log('format')
+                exec: async editor => {
+                  setLoading(true)
+
+                  try {
+                    const response = await fetch(`/api/v1/solutions/format`, {
+                      method: 'POST',
+                      headers: {
+                        Authorization: authHeader(),
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify(props.form.getFieldsValue()),
+                    })
+                    if (!response.ok) {
+                      const errMessage = await response.text()
+                      throw new Error(errMessage)
+                    }
+
+                    const solution = await response.json()
+                    props.form.setFieldsValue({ code: solution.Code })
+                  } catch (exception) {
+                    message.error(exception.toString())
+                  } finally {
+                    setLoading(false)
+                  }
                 },
               },
             ]}
