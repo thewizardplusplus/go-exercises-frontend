@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
-import { useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { List, Button, message } from 'antd'
 import { Link } from 'react-router-dom'
 import { StatusSign } from '../StatusSign/StatusSign.js'
@@ -10,6 +10,8 @@ import './TaskGroup.css'
 export function TaskGroup() {
   const [loading, setLoading] = useState(false)
   const [tasks, setTasks] = useState({ Tasks: [], TotalCount: 0 })
+  const { page: defaultPage } = useParams()
+  const [page, setPage] = useState(parseInt(defaultPage, 10) || 1)
   const authHeader = useAuthHeader()
 
   const pageSize = 5
@@ -31,6 +33,7 @@ export function TaskGroup() {
 
       const tasks = await response.json()
       setTasks(tasks)
+      setPage(page)
     } catch (exception) {
       message.error(exception.toString())
     } finally {
@@ -38,7 +41,7 @@ export function TaskGroup() {
     }
   }
   useEffect(() => {
-    loadTasks(1)
+    loadTasks(page)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const history = useHistory()
@@ -74,10 +77,14 @@ export function TaskGroup() {
           </List.Item>
         )}
         pagination={{
+          current: page,
           pageSize,
           total: tasks.TotalCount,
           showSizeChanger: false,
           onChange: page => {
+            const url = page !== 1 ? `/page/${page}` : '/'
+            window.history.replaceState(null, '', url)
+
             loadTasks(page)
           },
         }}
