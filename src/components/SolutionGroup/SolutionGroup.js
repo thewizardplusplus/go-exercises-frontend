@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
 import { Button, List, Typography, message } from 'antd'
 import { StatusSign } from '../StatusSign/StatusSign.js'
@@ -8,7 +9,8 @@ import './SolutionGroup.css'
 export function SolutionGroup(props) {
   const [loading, setLoading] = useState(false)
   const [solutions, setSolutions] = useState({ Solutions: [], TotalCount: 0 })
-  const [page, setPage] = useState(1)
+  const { page: defaultPage } = useParams()
+  const [page, setPage] = useState(parseInt(defaultPage, 10) || 1)
   const authHeader = useAuthHeader()
 
   const pageSize = 5
@@ -95,6 +97,12 @@ export function SolutionGroup(props) {
           total: solutions.TotalCount,
           showSizeChanger: false,
           onChange: page => {
+            const url =
+              page !== 1
+                ? `/tasks/${props.taskID}/solutions/page/${page}`
+                : `/tasks/${props.taskID}/solutions`
+            window.history.replaceState(null, '', url)
+
             loadSolutions(page)
           },
         }}

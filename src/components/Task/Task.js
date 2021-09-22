@@ -21,10 +21,12 @@ import { SolutionGroup } from '../SolutionGroup/SolutionGroup.js'
 import { SolutionForm } from '../SolutionForm/SolutionForm.js'
 import './Task.css'
 
-export function Task() {
+export function Task(props) {
   const [loading, setLoading] = useState(false)
   const [task, setTask] = useState(null)
-  const [activeTab, setActiveTab] = useState('1')
+  const [activeTab, setActiveTab] = useState(
+    !props.solutionGroupMode ? '1' : '2',
+  )
   const { id } = useParams()
   const authHeader = useAuthHeader()
   const auth = useAuthUser()
@@ -114,7 +116,12 @@ export function Task() {
         <Col span={12}>
           <Tabs
             activeKey={activeTab}
+            destroyInactiveTabPane={true}
             onChange={activeKey => {
+              const url =
+                activeKey === '1' ? `/tasks/${id}` : `/tasks/${id}/solutions`
+              window.history.replaceState(null, '', url)
+
               setActiveTab(activeKey)
             }}
           >
@@ -138,6 +145,9 @@ export function Task() {
             boilerplateCode={task?.BoilerplateCode}
             form={solutionForm}
             onSolutionSubmission={() => {
+              const url = `/tasks/${id}/solutions`
+              window.history.replaceState(null, '', url)
+
               setActiveTab('2')
             }}
           />
