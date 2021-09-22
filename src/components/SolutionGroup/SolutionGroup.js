@@ -7,7 +7,7 @@ import './SolutionGroup.css'
 
 export function SolutionGroup(props) {
   const [loading, setLoading] = useState(false)
-  const [solutions, setSolutions] = useState([])
+  const [solutions, setSolutions] = useState({ Solutions: [], TotalCount: 0 })
   const [page, setPage] = useState(1)
   const authHeader = useAuthHeader()
 
@@ -54,7 +54,7 @@ export function SolutionGroup(props) {
       </Button>
       <List
         loading={loading}
-        dataSource={solutions}
+        dataSource={solutions.Solutions}
         rowKey="ID"
         renderItem={solution => (
           <List.Item>
@@ -91,7 +91,8 @@ export function SolutionGroup(props) {
         )}
         pagination={{
           current: page,
-          total: Number.POSITIVE_INFINITY,
+          pageSize,
+          total: solutions.TotalCount,
           showSizeChanger: false,
           onChange: page => {
             loadSolutions(page)
