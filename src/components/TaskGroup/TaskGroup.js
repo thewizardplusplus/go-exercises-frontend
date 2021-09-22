@@ -9,7 +9,7 @@ import './TaskGroup.css'
 
 export function TaskGroup() {
   const [loading, setLoading] = useState(false)
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState({ Tasks: [], TotalCount: 0 })
   const authHeader = useAuthHeader()
 
   const pageSize = 5
@@ -48,7 +48,7 @@ export function TaskGroup() {
         className="task-group"
         bordered={true}
         loading={loading}
-        dataSource={tasks}
+        dataSource={tasks.Tasks}
         rowKey="ID"
         renderItem={task => (
           <List.Item>
@@ -74,7 +74,8 @@ export function TaskGroup() {
           </List.Item>
         )}
         pagination={{
-          total: Number.POSITIVE_INFINITY,
+          pageSize,
+          total: tasks.TotalCount,
           showSizeChanger: false,
           onChange: page => {
             loadTasks(page)
