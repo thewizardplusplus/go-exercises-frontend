@@ -9,7 +9,7 @@ export function SolutionDetails(props) {
     <ItemDetails
       item={props.solution}
       additionDetails={[
-        props.solution.Result.Input && {
+        props.solution.Result.Input !== undefined && {
           key: 1,
           label: <Typography.Text type="success">Input</Typography.Text>,
           content: (
@@ -21,7 +21,7 @@ export function SolutionDetails(props) {
           ),
         },
 
-        props.solution.Result.ExpectedOutput && {
+        props.solution.Result.ExpectedOutput !== undefined && {
           key: 2,
           label: (
             <Typography.Text type="success">Expected output</Typography.Text>
@@ -35,7 +35,7 @@ export function SolutionDetails(props) {
           ),
         },
 
-        props.solution.Result.ActualOutput && {
+        props.solution.Result.ActualOutput !== undefined && {
           key: 3,
           label: <Typography.Text type="danger">Actual output</Typography.Text>,
           content: (
@@ -47,7 +47,7 @@ export function SolutionDetails(props) {
           ),
         },
 
-        props.solution.Result.ErrMessage && {
+        props.solution.Result.ErrMessage !== undefined && {
           key: 4,
           label: <Typography.Text type="danger">Error message</Typography.Text>,
           content: (
