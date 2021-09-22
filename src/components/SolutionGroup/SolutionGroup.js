@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
-import { Button, List, Typography, message } from 'antd'
+import { Button, List, message } from 'antd'
 import { StatusSign } from '../StatusSign/StatusSign.js'
 import { SolutionDetails } from '../SolutionDetails/SolutionDetails.js'
 import './SolutionGroup.css'
@@ -81,10 +81,7 @@ export function SolutionGroup(props) {
                     props.onSolutionSelection(solution)
                   }}
                 >
-                  {`#${solution.ID}`}
-                  <Typography.Text code ellipsis={true}>
-                    {solution.Code.replace(/\s+/g, ' ')}
-                  </Typography.Text>
+                  {`Solution #${solution.ID}`}
                 </Button>
               }
               description={<SolutionDetails solution={solution} />}
