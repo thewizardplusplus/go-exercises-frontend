@@ -8,6 +8,7 @@ import {
   Space,
   Tooltip,
   Button,
+  Spin,
   Row,
   Col,
   Tabs,
@@ -23,7 +24,9 @@ import './Task.css'
 
 export function Task(props) {
   const [loading, setLoading] = useState(false)
+  const [statusLoading, setStatusLoading] = useState(false)
   const [task, setTask] = useState(null)
+  const [taskStatus, setTaskStatus] = useState(null)
   const [activeTab, setActiveTab] = useState(
     !props.solutionGroupMode ? '1' : '2',
   )
@@ -33,28 +36,32 @@ export function Task(props) {
   const history = useHistory()
   const [solutionForm] = Form.useForm()
 
-  useEffect(() => {
-    ;(async () => {
-      setLoading(true)
+  const loadTask = async (id, loadingSetter, handler) => {
+    loadingSetter(true)
 
-      try {
-        const response = await fetch(`/api/v1/tasks/${id}`, {
-          method: 'GET',
-          headers: { Authorization: authHeader() },
-        })
-        if (!response.ok) {
-          const errMessage = await response.text()
-          throw new Error(errMessage)
-        }
-
-        const task = await response.json()
-        setTask(task)
-      } catch (exception) {
-        message.error(exception.toString())
-      } finally {
-        setLoading(false)
+    try {
+      const response = await fetch(`/api/v1/tasks/${id}`, {
+        method: 'GET',
+        headers: { Authorization: authHeader() },
+      })
+      if (!response.ok) {
+        const errMessage = await response.text()
+        throw new Error(errMessage)
       }
-    })()
+
+      const task = await response.json()
+      handler(task)
+    } catch (exception) {
+      message.error(exception.toString())
+    } finally {
+      loadingSetter(false)
+    }
+  }
+  useEffect(() => {
+    loadTask(id, setLoading, task => {
+      setTask(task)
+      setTaskStatus(task.Status)
+    })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -99,15 +106,17 @@ export function Task(props) {
     >
       <Card.Meta
         avatar={
-          <StatusSign
-            status={
-              task?.Status === 2
-                ? 'success'
-                : task?.Status === 1
-                ? 'failure'
-                : 'unknown'
-            }
-          />
+          <Spin spinning={statusLoading}>
+            <StatusSign
+              status={
+                taskStatus === 2
+                  ? 'success'
+                  : taskStatus === 1
+                  ? 'failure'
+                  : 'unknown'
+              }
+            />
+          </Spin>
         }
         title={`#${id} ${task?.Title}`}
         description={task && <ItemDetails item={task} />}
@@ -131,6 +140,11 @@ export function Task(props) {
             <Tabs.TabPane key="2" tab="Solutions">
               <SolutionGroup
                 taskID={id}
+                onSolutionUpdate={() => {
+                  loadTask(id, setStatusLoading, task => {
+                    setTaskStatus(task.Status)
+                  })
+                }}
                 onSolutionSelection={solution => {
                   solutionForm.setFieldsValue({ code: solution.Code })
                   window.scroll(0, 0)

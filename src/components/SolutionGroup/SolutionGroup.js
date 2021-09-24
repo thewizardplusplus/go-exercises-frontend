@@ -14,7 +14,7 @@ export function SolutionGroup(props) {
   const authHeader = useAuthHeader()
 
   const pageSize = 5
-  const loadSolutions = async page => {
+  const loadSolutions = async (page, additionalHandler) => {
     setLoading(true)
 
     try {
@@ -33,6 +33,9 @@ export function SolutionGroup(props) {
       const solutions = await response.json()
       setSolutions(solutions)
       setPage(page)
+      if (additionalHandler) {
+        additionalHandler()
+      }
     } catch (exception) {
       message.error(exception.toString())
     } finally {
@@ -49,7 +52,7 @@ export function SolutionGroup(props) {
         block
         disabled={loading}
         onClick={() => {
-          loadSolutions(1)
+          loadSolutions(1, props.onSolutionUpdate)
         }}
       >
         Update
