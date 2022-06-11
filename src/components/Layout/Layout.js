@@ -16,7 +16,7 @@ export function Layout() {
       </AntLayout.Content>
 
       <AntLayout.Footer>
-        Copyright &copy; 2021 thewizardplusplus
+        Copyright &copy; 2021-2022 thewizardplusplus
       </AntLayout.Footer>
     </AntLayout>
   )
