@@ -46,6 +46,38 @@ export function TaskForm() {
     })()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const saveTask = async (data, handler) => {
+    setLoading(true)
+
+    try {
+      const response = await fetch(`/api/v1/tasks/${id ?? ''}`, {
+        method: id === undefined ? 'POST' : 'PUT',
+        headers: {
+          Authorization: authHeader(),
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          testCases: JSON.parse(data.testCases),
+        }),
+      })
+      if (!response.ok) {
+        const errMessage = await response.text()
+        throw new Error(errMessage)
+      }
+
+      let idForRedirection = id
+      if (idForRedirection === undefined) {
+        const task = await response.json()
+        idForRedirection = task.ID
+      }
+
+      handler(idForRedirection)
+    } catch (exception) {
+      setLoading(false)
+      message.error(exception.toString())
+    }
+  }
   return (
     <Spin spinning={loading}>
       <Form
@@ -57,72 +89,20 @@ export function TaskForm() {
             return
           }
 
-          ;(async () => {
-            setLoading(true)
-
-            try {
-              const data = form.getFieldsValue()
-              const response = await fetch(`/api/v1/tasks/${id ?? ''}`, {
-                method: id === undefined ? 'POST' : 'PUT',
-                headers: {
-                  Authorization: authHeader(),
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  ...data,
-                  testCases: JSON.parse(data.testCases),
-                }),
-              })
-              if (!response.ok) {
-                const errMessage = await response.text()
-                throw new Error(errMessage)
-              }
-
-              if (id === undefined) {
-                const task = await response.json()
-                history.push(`/tasks/${task.ID}/edit`)
-              } else {
-                setLoading(false)
-              }
-            } catch (exception) {
+          saveTask(form.getFieldsValue(), idForRedirection => {
+            if (id === undefined) {
+              history.push(`/tasks/${idForRedirection}/edit`)
+            } else {
               setLoading(false)
-              message.error(exception.toString())
             }
-          })()
+          })
 
           event.preventDefault()
         }}
         onFinish={async data => {
-          setLoading(true)
-
-          try {
-            const response = await fetch(`/api/v1/tasks/${id ?? ''}`, {
-              method: id === undefined ? 'POST' : 'PUT',
-              headers: {
-                Authorization: authHeader(),
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                ...data,
-                testCases: JSON.parse(data.testCases),
-              }),
-            })
-            if (!response.ok) {
-              const errMessage = await response.text()
-              throw new Error(errMessage)
-            }
-
-            let idForRedirection = id
-            if (idForRedirection === undefined) {
-              const task = await response.json()
-              idForRedirection = task.ID
-            }
-
+          await saveTask(data, idForRedirection => {
             history.push(`/tasks/${idForRedirection}`)
-          } catch (exception) {
-            setLoading(false)
-            message.error(exception.toString())
-          }
+          })
         }}
       >
         <Form.Item label="Title" name="title">
