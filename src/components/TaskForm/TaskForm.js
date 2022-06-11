@@ -51,6 +51,47 @@ export function TaskForm() {
       <Form
         layout="vertical"
         form={form}
+        onKeyDown={event => {
+          // handle the "Ctrl+S" and "Cmd+S" combinations
+          if (!(event.ctrlKey || event.metaKey) || event.code !== 'KeyS') {
+            return
+          }
+
+          ;(async () => {
+            setLoading(true)
+
+            try {
+              const data = form.getFieldsValue()
+              const response = await fetch(`/api/v1/tasks/${id ?? ''}`, {
+                method: id === undefined ? 'POST' : 'PUT',
+                headers: {
+                  Authorization: authHeader(),
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  ...data,
+                  testCases: JSON.parse(data.testCases),
+                }),
+              })
+              if (!response.ok) {
+                const errMessage = await response.text()
+                throw new Error(errMessage)
+              }
+
+              if (id === undefined) {
+                const task = await response.json()
+                history.push(`/tasks/${task.ID}/edit`)
+              } else {
+                setLoading(false)
+              }
+            } catch (exception) {
+              setLoading(false)
+              message.error(exception.toString())
+            }
+          })()
+
+          event.preventDefault()
+        }}
         onFinish={async data => {
           setLoading(true)
 
