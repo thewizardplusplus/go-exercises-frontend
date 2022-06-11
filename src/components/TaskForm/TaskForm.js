@@ -27,6 +27,7 @@ export function TaskForm() {
   useEffect(() => {
     ;(async () => {
       if (id === undefined) {
+        form.setFieldsValue({ testCases: [{ input: '', expectedOutput: '' }] })
         return
       }
 
