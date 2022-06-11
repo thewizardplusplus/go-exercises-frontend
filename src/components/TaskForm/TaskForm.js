@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { Spin, Form, Input, Button, message } from 'antd'
+import { Spin, Form, Input, Row, Col, Button, message } from 'antd'
 import { Editor } from '../Editor/Editor.js'
+import './TaskForm.css'
 
 export function TaskForm() {
   const [loading, setLoading] = useState(false)
@@ -100,9 +101,23 @@ export function TaskForm() {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" block>
-            {id === undefined ? 'Create' : 'Save'} task
-          </Button>
+          <Row>
+            <Col className="task-form-cancel-button-container" span={12}>
+              <Button
+                block
+                onClick={() => {
+                  history.push(id === undefined ? '/' : `/tasks/${id}`)
+                }}
+              >
+                Cancel
+              </Button>
+            </Col>
+            <Col className="task-form-submit-button-container" span={12}>
+              <Button type="primary" htmlType="submit" block>
+                {id === undefined ? 'Create' : 'Save'}
+              </Button>
+            </Col>
+          </Row>
         </Form.Item>
       </Form>
     </Spin>
