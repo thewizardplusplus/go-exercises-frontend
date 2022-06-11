@@ -6,6 +6,10 @@
   margin: 0 !important;
 }
 
+.ant-page-header-heading-extra {
+  margin: 0 !important;
+}
+
 .ant-page-header-back .anticon {
   color: #f0f2f5;
 }
