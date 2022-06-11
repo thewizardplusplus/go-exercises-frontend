@@ -59,7 +59,7 @@ export function SolutionForm(props) {
                   setLoading(true)
 
                   try {
-                    const response = await fetch(`/api/v1/solutions/format`, {
+                    const response = await fetch('/api/v1/solutions/format', {
                       method: 'POST',
                       headers: {
                         Authorization: authHeader(),
