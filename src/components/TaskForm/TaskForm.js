@@ -2,7 +2,18 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { Spin, Form, Input, Row, Col, Button, message } from 'antd'
+import {
+  Spin,
+  Form,
+  Input,
+  Card,
+  Tooltip,
+  Row,
+  Col,
+  Button,
+  message,
+} from 'antd'
+import { DeleteOutlined } from '@ant-design/icons'
 import { Editor } from '../Editor/Editor.js'
 import './TaskForm.css'
 
@@ -36,7 +47,10 @@ export function TaskForm() {
           title: task.Title,
           description: task.Description,
           boilerplateCode: task.BoilerplateCode,
-          testCases: JSON.stringify(task.TestCases),
+          testCases: task.TestCases.map(testCase => ({
+            input: testCase.Input,
+            expectedOutput: testCase.ExpectedOutput,
+          })),
         })
       } catch (exception) {
         message.error(exception.toString())
@@ -58,7 +72,10 @@ export function TaskForm() {
         },
         body: JSON.stringify({
           ...data,
-          testCases: JSON.parse(data.testCases),
+          testCases: data.testCases.map(testCase => ({
+            Input: testCase.input,
+            ExpectedOutput: testCase.expectedOutput,
+          })),
         }),
       })
       if (!response.ok) {
@@ -81,6 +98,7 @@ export function TaskForm() {
   return (
     <Spin spinning={loading}>
       <Form
+        className="task-form"
         layout="vertical"
         form={form}
         onKeyDown={event => {
@@ -117,9 +135,66 @@ export function TaskForm() {
           <Editor name="boilerplateCode" mode="golang" />
         </Form.Item>
 
-        <Form.Item label="Test cases" name="testCases">
-          <Editor name="testCases" mode="json" />
-        </Form.Item>
+        <Form.List name="testCases">
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map((field, index) => (
+                <Card
+                  key={field.key}
+                  size="small"
+                  title={`Test case #${index + 1}`}
+                  extra={
+                    fields.length < 2 ? null : (
+                      <Tooltip title="Delete test case">
+                        <Button
+                          icon={<DeleteOutlined />}
+                          onClick={() => {
+                            remove(field.name)
+                          }}
+                        />
+                      </Tooltip>
+                    )
+                  }
+                >
+                  <Form.Item
+                    {...field}
+                    label="Input"
+                    name={[field.name, 'input']}
+                  >
+                    <Input.TextArea autoSize={true} />
+                  </Form.Item>
+
+                  <Form.Item
+                    noStyle
+                    shouldUpdate={(previousData, currentData) =>
+                      previousData.expectedOutput !== currentData.expectedOutput
+                    }
+                  >
+                    <Form.Item
+                      {...field}
+                      label="Expected output"
+                      name={[field.name, 'expectedOutput']}
+                    >
+                      <Input.TextArea autoSize={true} />
+                    </Form.Item>
+                  </Form.Item>
+                </Card>
+              ))}
+
+              <Form.Item>
+                <Button
+                  type="primary"
+                  block
+                  onClick={() => {
+                    add()
+                  }}
+                >
+                  Add test case
+                </Button>
+              </Form.Item>
+            </>
+          )}
+        </Form.List>
 
         <Form.Item>
           <Row>

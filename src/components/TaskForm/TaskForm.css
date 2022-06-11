@@ -1,3 +1,15 @@
+.task-form .ant-card {
+  margin-bottom: 24px;
+}
+
+.task-form .ant-card .ant-form-item {
+  margin-bottom: 8px;
+}
+
+.task-form .ant-card .ant-form-item:last-child {
+  margin-bottom: 0;
+}
+
 .task-form-cancel-button-container {
   padding-right: 4px;
 }
