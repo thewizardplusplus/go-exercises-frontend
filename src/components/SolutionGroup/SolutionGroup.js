@@ -78,7 +78,7 @@ export function SolutionGroup(props) {
               title={
                 <Button
                   className="solution-group-solution-button"
-                  type="text"
+                  type="link"
                   block
                   onClick={() => {
                     props.onSolutionSelection(solution)

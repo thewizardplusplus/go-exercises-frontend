@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import { useAuthHeader, useAuthUser } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
 import {
-  Form,
   Card,
   Space,
   Tooltip,
@@ -34,7 +33,6 @@ export function Task(props) {
   const authHeader = useAuthHeader()
   const auth = useAuthUser()
   const history = useHistory()
-  const [solutionForm] = Form.useForm()
 
   const loadTask = async (id, loadingSetter, handler) => {
     loadingSetter(true)
@@ -146,7 +144,7 @@ export function Task(props) {
                   })
                 }}
                 onSolutionSelection={solution => {
-                  solutionForm.setFieldsValue({ code: solution.Code })
+                  history.push(`/tasks/${id}/solutions/${solution.ID}`)
                   window.scroll(0, 0)
                 }}
               />
@@ -157,7 +155,6 @@ export function Task(props) {
           <SolutionForm
             taskID={id}
             boilerplateCode={task?.BoilerplateCode}
-            form={solutionForm}
             onSolutionSubmission={() => {
               const url = `/tasks/${id}/solutions`
               window.history.replaceState(null, '', url)

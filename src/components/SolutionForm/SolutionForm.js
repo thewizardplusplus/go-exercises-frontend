@@ -7,9 +7,10 @@ import './SolutionForm.css'
 export function SolutionForm(props) {
   const [loading, setLoading] = useState(false)
   const authHeader = useAuthHeader()
+  const [form] = Form.useForm()
 
   useEffect(() => {
-    props.form.resetFields()
+    form.resetFields()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -17,7 +18,7 @@ export function SolutionForm(props) {
       <Form
         className="solution-form"
         initialValues={{ code: props.boilerplateCode }}
-        form={props.form}
+        form={form}
         onFinish={async data => {
           setLoading(true)
 
@@ -65,7 +66,7 @@ export function SolutionForm(props) {
                         Authorization: authHeader(),
                         'Content-Type': 'application/json',
                       },
-                      body: JSON.stringify(props.form.getFieldsValue()),
+                      body: JSON.stringify(form.getFieldsValue()),
                     })
                     if (!response.ok) {
                       const errMessage = await response.text()
@@ -73,7 +74,7 @@ export function SolutionForm(props) {
                     }
 
                     const solution = await response.json()
-                    props.form.setFieldsValue({ code: solution.Code })
+                    form.setFieldsValue({ code: solution.Code })
                   } catch (exception) {
                     message.error(exception.toString())
                   } finally {
@@ -91,7 +92,7 @@ export function SolutionForm(props) {
               <Button
                 block
                 onClick={() => {
-                  props.form.resetFields()
+                  form.resetFields()
                 }}
               >
                 Reset

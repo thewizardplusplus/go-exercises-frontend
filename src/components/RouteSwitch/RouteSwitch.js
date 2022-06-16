@@ -57,6 +57,13 @@ export function RouteSwitch() {
         loginPath={'/login'}
       />
 
+      <PrivateRoute
+        exact
+        path="/tasks/:id/solutions/:solutionID"
+        component={() => <Task solutionGroupMode={true} />}
+        loginPath={'/login'}
+      />
+
       <Route path="/login">
         <LoginForm />
       </Route>
