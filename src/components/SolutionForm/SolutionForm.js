@@ -10,8 +10,33 @@ export function SolutionForm(props) {
   const [form] = Form.useForm()
 
   useEffect(() => {
-    form.resetFields()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    ;(async () => {
+      if (props.solutionID === undefined) {
+        form.resetFields()
+        return
+      }
+
+      setLoading(true)
+
+      try {
+        const response = await fetch(`/api/v1/solutions/${props.solutionID}`, {
+          method: 'GET',
+          headers: { Authorization: authHeader() },
+        })
+        if (!response.ok) {
+          const errMessage = await response.text()
+          throw new Error(errMessage)
+        }
+
+        const solution = await response.json()
+        form.setFieldsValue({ code: solution.Code })
+      } catch (exception) {
+        message.error(exception.toString())
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [props.solutionID]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Spin spinning={loading}>

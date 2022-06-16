@@ -29,7 +29,7 @@ export function Task(props) {
   const [activeTab, setActiveTab] = useState(
     !props.solutionGroupMode ? '1' : '2',
   )
-  const { id } = useParams()
+  const { id, solutionID } = useParams()
   const authHeader = useAuthHeader()
   const auth = useAuthUser()
   const history = useHistory()
@@ -154,6 +154,7 @@ export function Task(props) {
         <Col span={12}>
           <SolutionForm
             taskID={id}
+            solutionID={solutionID}
             boilerplateCode={task?.BoilerplateCode}
             onSolutionSubmission={() => {
               const url = `/tasks/${id}/solutions`
