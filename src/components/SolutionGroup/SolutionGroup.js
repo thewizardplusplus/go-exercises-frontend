@@ -18,21 +18,26 @@ export function SolutionGroup(props) {
     setLoading(true)
 
     try {
-      const response = await fetch(
-        `/api/v1/tasks/${props.taskID}/solutions/?pageSize=${pageSize}&page=${page}`,
-        {
-          method: 'GET',
-          headers: { Authorization: authHeader() },
-        },
-      )
+      const url =
+        props.solutionID === undefined
+          ? `/api/v1/tasks/${props.taskID}/solutions/?pageSize=${pageSize}&page=${page}`
+          : `/api/v1/solutions/${props.solutionID}`
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: { Authorization: authHeader() },
+      })
       if (!response.ok) {
         const errMessage = await response.text()
         throw new Error(errMessage)
       }
 
-      const solutions = await response.json()
+      const data = await response.json()
+      const solutions =
+        props.solutionID === undefined
+          ? data
+          : { Solutions: [data], TotalCount: 1 }
       setSolutions(solutions)
-      setPage(page)
+      setPage(props.solutionID === undefined ? page : 1)
       if (additionalHandler) {
         additionalHandler()
       }
@@ -44,7 +49,7 @@ export function SolutionGroup(props) {
   }
   useEffect(() => {
     loadSolutions(page)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.solutionID]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -73,13 +78,7 @@ export function SolutionGroup(props) {
       </Button>
       <List
         loading={loading}
-        dataSource={
-          props.solutionID === undefined
-            ? solutions.Solutions
-            : solutions.Solutions.filter(
-                solution => solution.ID === props.solutionID,
-              )
-        }
+        dataSource={solutions.Solutions}
         rowKey="ID"
         renderItem={solution => (
           <List.Item>
@@ -114,7 +113,7 @@ export function SolutionGroup(props) {
         pagination={{
           current: page,
           pageSize,
-          total: props.solutionID === undefined ? solutions.TotalCount : 1,
+          total: solutions.TotalCount,
           showSizeChanger: false,
           onChange: page => {
             const url =
