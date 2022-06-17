@@ -59,7 +59,13 @@ export function SolutionGroup(props) {
       </Button>
       <List
         loading={loading}
-        dataSource={solutions.Solutions}
+        dataSource={
+          props.solutionID === undefined
+            ? solutions.Solutions
+            : solutions.Solutions.filter(
+                solution => solution.ID === props.solutionID,
+              )
+        }
         rowKey="ID"
         renderItem={solution => (
           <List.Item>

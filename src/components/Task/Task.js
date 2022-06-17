@@ -29,7 +29,10 @@ export function Task(props) {
   const [activeTab, setActiveTab] = useState(
     !props.solutionGroupMode ? '1' : '2',
   )
-  const { id, solutionID } = useParams()
+  const { id, solutionID: defaultSolutionID } = useParams()
+  const [solutionID, setSolutionID] = useState(
+    parseInt(defaultSolutionID, 10) || undefined,
+  )
   const authHeader = useAuthHeader()
   const auth = useAuthUser()
   const history = useHistory()
@@ -128,6 +131,7 @@ export function Task(props) {
               const url =
                 activeKey === '1' ? `/tasks/${id}` : `/tasks/${id}/solutions`
               window.history.replaceState(null, '', url)
+              setSolutionID(undefined)
 
               setActiveTab(activeKey)
             }}
@@ -138,6 +142,7 @@ export function Task(props) {
             <Tabs.TabPane key="2" tab="Solutions">
               <SolutionGroup
                 taskID={id}
+                solutionID={solutionID}
                 onSolutionUpdate={() => {
                   loadTask(id, setStatusLoading, task => {
                     setTaskStatus(task.Status)
@@ -145,6 +150,7 @@ export function Task(props) {
                 }}
                 onSolutionSelection={solution => {
                   history.push(`/tasks/${id}/solutions/${solution.ID}`)
+                  setSolutionID(solution.ID)
                   window.scroll(0, 0)
                 }}
               />
