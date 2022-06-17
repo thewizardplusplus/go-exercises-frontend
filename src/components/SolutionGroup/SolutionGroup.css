@@ -1,3 +1,7 @@
+.solution-group-general-button + .solution-group-general-button {
+  margin-top: 12px;
+}
+
 .solution-group-solution-button {
   padding: 4px 0 !important;
   text-align: left !important;

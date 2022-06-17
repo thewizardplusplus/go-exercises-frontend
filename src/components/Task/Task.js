@@ -153,6 +153,11 @@ export function Task(props) {
                   setSolutionID(solution.ID)
                   window.scroll(0, 0)
                 }}
+                onReturningToAllSolutions={() => {
+                  const url = `/tasks/${id}/solutions`
+                  window.history.replaceState(null, '', url)
+                  setSolutionID(undefined)
+                }}
               />
             </Tabs.TabPane>
           </Tabs>

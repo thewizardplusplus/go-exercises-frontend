@@ -48,7 +48,21 @@ export function SolutionGroup(props) {
 
   return (
     <>
+      {props.solutionID !== undefined && (
+        <Button
+          className="solution-group-general-button"
+          type="dashed"
+          block
+          disabled={loading}
+          onClick={() => {
+            props.onReturningToAllSolutions()
+          }}
+        >
+          &lt;&lt; Back to all solutions
+        </Button>
+      )}
       <Button
+        className="solution-group-general-button"
         block
         disabled={loading}
         onClick={() => {
