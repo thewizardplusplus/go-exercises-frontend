@@ -114,7 +114,7 @@ export function SolutionGroup(props) {
         pagination={{
           current: page,
           pageSize,
-          total: solutions.TotalCount,
+          total: props.solutionID === undefined ? solutions.TotalCount : 1,
           showSizeChanger: false,
           onChange: page => {
             const url =
