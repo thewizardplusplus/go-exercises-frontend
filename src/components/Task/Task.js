@@ -149,7 +149,8 @@ export function Task(props) {
                   })
                 }}
                 onSolutionSelection={solution => {
-                  history.push(`/tasks/${id}/solutions/${solution.ID}`)
+                  const url = `/tasks/${id}/solutions/${solution.ID}`
+                  window.history.replaceState(null, '', url)
                   setSolutionID(solution.ID)
                   window.scroll(0, 0)
                 }}
