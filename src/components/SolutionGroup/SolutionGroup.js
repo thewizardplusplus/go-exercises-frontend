@@ -85,7 +85,7 @@ export function SolutionGroup(props) {
             <List.Item.Meta
               avatar={
                 <StatusSign
-                  status={
+                  statusName={
                     solution.IsCorrect
                       ? 'success'
                       : Object.keys(solution.Result).length !== 0

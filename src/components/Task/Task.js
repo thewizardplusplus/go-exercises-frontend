@@ -108,15 +108,7 @@ export function Task(props) {
       <Card.Meta
         avatar={
           <Spin spinning={statusLoading}>
-            <StatusSign
-              status={
-                taskStatus === 2
-                  ? 'success'
-                  : taskStatus === 1
-                  ? 'failure'
-                  : 'unknown'
-              }
-            />
+            <StatusSign statusCode={taskStatus} />
           </Spin>
         }
         title={`#${id} ${task?.Title}`}

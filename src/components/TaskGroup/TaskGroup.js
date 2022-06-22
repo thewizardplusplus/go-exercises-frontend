@@ -56,17 +56,7 @@ export function TaskGroup() {
         renderItem={task => (
           <List.Item>
             <List.Item.Meta
-              avatar={
-                <StatusSign
-                  status={
-                    task.Status === 2
-                      ? 'success'
-                      : task.Status === 1
-                      ? 'failure'
-                      : 'unknown'
-                  }
-                />
-              }
+              avatar={<StatusSign statusCode={task.Status} />}
               title={
                 <Link
                   to={`/tasks/${task.ID}`}

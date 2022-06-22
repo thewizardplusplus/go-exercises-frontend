@@ -7,22 +7,27 @@ import {
 import './StatusSign.css'
 
 export function StatusSign(props) {
+  const statusName =
+    props.statusName ??
+    (props.statusCode === 2
+      ? 'success'
+      : props.statusCode === 1
+      ? 'failure'
+      : 'unknown')
   return (
     <Avatar
       className="status-sign-avatar"
       icon={
-        props.status === 'success' ? (
-          // success
+        statusName === 'success' ? (
           <Typography.Text type="success">
             <CheckOutlined />
           </Typography.Text>
-        ) : props.status === 'failure' ? (
-          // failure
+        ) : statusName === 'failure' ? (
           <Typography.Text type="danger">
             <CloseOutlined />
           </Typography.Text>
         ) : (
-          // unknown
+          // unknown status
           <QuestionOutlined />
         )
       }
