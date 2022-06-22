@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
 import { useParams, useHistory } from 'react-router-dom'
 import { fetchJsonData } from '../../hooks/fetchJsonData.js'
-import { List, Button, message } from 'antd'
+import { List, Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { StatusSign } from '../StatusSign/StatusSign.js'
 import { ItemDetails } from '../ItemDetails/ItemDetails.js'
@@ -27,9 +27,6 @@ export function TaskGroup() {
       onLoadingSuccess: tasks => {
         setTasks(tasks)
         setPage(page)
-      },
-      onLoadingFailure: exception => {
-        message.error(exception.toString())
       },
       onLoadingEnding: () => {
         setLoading(false)

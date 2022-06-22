@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useSignIn } from 'react-auth-kit'
 import { Redirect, useHistory } from 'react-router-dom'
 import { useIsAuthenticated } from 'react-auth-kit'
-import { Spin, Form, Input, Button, message } from 'antd'
+import { Spin, Form, Input, Button } from 'antd'
 import { fetchJsonData } from '../../hooks/fetchJsonData.js'
 import jwtDecode from 'jwt-decode'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
@@ -42,9 +42,6 @@ export function LoginForm() {
               }
 
               history.push('/')
-            },
-            onLoadingFailure: exception => {
-              message.error(exception.toString())
             },
             onLoadingEnding: isSuccessful => {
               if (!isSuccessful) {

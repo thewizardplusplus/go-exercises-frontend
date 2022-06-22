@@ -3,17 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
 import { fetchJsonData } from '../../hooks/fetchJsonData.js'
-import {
-  Spin,
-  Form,
-  Input,
-  Card,
-  Tooltip,
-  Row,
-  Col,
-  Button,
-  message,
-} from 'antd'
+import { Spin, Form, Input, Card, Tooltip, Row, Col, Button } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { Editor } from '../Editor/Editor.js'
 import './TaskForm.css'
@@ -49,9 +39,6 @@ export function TaskForm() {
             })),
           })
         },
-        onLoadingFailure: exception => {
-          message.error(exception.toString())
-        },
         onLoadingEnding: () => {
           setLoading(false)
         },
@@ -77,9 +64,6 @@ export function TaskForm() {
       onLoadingSuccess: task => {
         let idForRedirection = id ?? task.ID
         handler(idForRedirection)
-      },
-      onLoadingFailure: exception => {
-        message.error(exception.toString())
       },
       onLoadingEnding: isSuccessful => {
         if (!isSuccessful) {

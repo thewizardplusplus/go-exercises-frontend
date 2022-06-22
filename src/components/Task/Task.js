@@ -3,17 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useAuthHeader, useAuthUser } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
 import { fetchJsonData } from '../../hooks/fetchJsonData.js'
-import {
-  Card,
-  Space,
-  Tooltip,
-  Button,
-  Spin,
-  Row,
-  Col,
-  Tabs,
-  message,
-} from 'antd'
+import { Card, Space, Tooltip, Button, Spin, Row, Col, Tabs } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { StatusSign } from '../StatusSign/StatusSign.js'
 import { ItemDetails } from '../ItemDetails/ItemDetails.js'
@@ -47,9 +37,6 @@ export function Task(props) {
       },
       onLoadingSuccess: task => {
         handler(task)
-      },
-      onLoadingFailure: exception => {
-        message.error(exception.toString())
       },
       onLoadingEnding: () => {
         loadingSetter(false)
@@ -89,9 +76,6 @@ export function Task(props) {
                     },
                     onLoadingSuccess: () => {
                       history.push('/')
-                    },
-                    onLoadingFailure: exception => {
-                      message.error(exception.toString())
                     },
                     onLoadingEnding: isSuccessful => {
                       if (!isSuccessful) {

@@ -1,3 +1,5 @@
+import { message } from 'antd'
+
 async function parseResponse(response) {
   const contentType = response.headers.get('Content-Type')
   if (contentType === null) {
@@ -22,6 +24,14 @@ async function parseResponse(response) {
 }
 
 export async function fetchJsonData(method, url, options) {
+  // default options
+  options = {
+    onLoadingFailure: exception => {
+      message.error(exception.toString())
+    },
+    ...options,
+  }
+
   options.onLoadingBeginning && options.onLoadingBeginning()
 
   let isSuccessful = false

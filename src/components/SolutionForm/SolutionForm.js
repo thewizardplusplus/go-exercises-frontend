@@ -26,9 +26,6 @@ export function SolutionForm(props) {
         onLoadingSuccess: solution => {
           form.setFieldsValue({ code: solution.Code })
         },
-        onLoadingFailure: exception => {
-          message.error(exception.toString())
-        },
         onLoadingEnding: () => {
           setLoading(false)
         },
@@ -55,9 +52,6 @@ export function SolutionForm(props) {
               props.onSolutionSubmission()
               message.success('Solution submitted')
             },
-            onLoadingFailure: exception => {
-              message.error(exception.toString())
-            },
             onLoadingEnding: () => {
               setLoading(false)
             },
@@ -82,9 +76,6 @@ export function SolutionForm(props) {
                     },
                     onLoadingSuccess: solution => {
                       form.setFieldsValue({ code: solution.Code })
-                    },
-                    onLoadingFailure: exception => {
-                      message.error(exception.toString())
                     },
                     onLoadingEnding: () => {
                       setLoading(false)

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
 import { fetchJsonData } from '../../hooks/fetchJsonData.js'
-import { Button, List, message } from 'antd'
+import { Button, List } from 'antd'
 import { StatusSign } from '../StatusSign/StatusSign.js'
 import { SolutionDetails } from '../SolutionDetails/SolutionDetails.js'
 import './SolutionGroup.css'
@@ -36,9 +36,6 @@ export function SolutionGroup(props) {
         if (additionalHandler) {
           additionalHandler()
         }
-      },
-      onLoadingFailure: exception => {
-        message.error(exception.toString())
       },
       onLoadingEnding: () => {
         setLoading(false)
