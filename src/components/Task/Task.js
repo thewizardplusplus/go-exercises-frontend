@@ -171,6 +171,7 @@ export function Task(props) {
             onSolutionSubmission={() => {
               const url = `/tasks/${id}/solutions`
               window.history.replaceState(null, '', url)
+              setSolutionID(undefined)
 
               setActiveTab('2')
             }}
