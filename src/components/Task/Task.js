@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader, useAuthUser } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
+import { fetchJsonData } from '../../hooks/fetchJsonData.js'
 import {
   Card,
   Space,
@@ -38,25 +39,22 @@ export function Task(props) {
   const history = useHistory()
 
   const loadTask = async (id, loadingSetter, handler) => {
-    loadingSetter(true)
+    await fetchJsonData('GET', `/api/v1/tasks/${id}`, {
+      headers: { Authorization: authHeader() },
 
-    try {
-      const response = await fetch(`/api/v1/tasks/${id}`, {
-        method: 'GET',
-        headers: { Authorization: authHeader() },
-      })
-      if (!response.ok) {
-        const errMessage = await response.text()
-        throw new Error(errMessage)
-      }
-
-      const task = await response.json()
-      handler(task)
-    } catch (exception) {
-      message.error(exception.toString())
-    } finally {
-      loadingSetter(false)
-    }
+      onLoadingBeginning: () => {
+        loadingSetter(true)
+      },
+      onLoadingSuccess: task => {
+        handler(task)
+      },
+      onLoadingFailure: exception => {
+        message.error(exception.toString())
+      },
+      onLoadingEnding: () => {
+        loadingSetter(false)
+      },
+    })
   }
   useEffect(() => {
     loadTask(id, setLoading, task => {
@@ -74,7 +72,9 @@ export function Task(props) {
             <Tooltip title="Edit">
               <Button
                 icon={<EditOutlined />}
-                onClick={() => history.push(`/tasks/${id}/edit`)}
+                onClick={() => {
+                  history.push(`/tasks/${id}/edit`)
+                }}
               />
             </Tooltip>
             <Tooltip title="Delete">
@@ -144,6 +144,7 @@ export function Task(props) {
                   const url = `/tasks/${id}/solutions/${solution.ID}`
                   window.history.replaceState(null, '', url)
                   setSolutionID(solution.ID)
+
                   window.scroll(0, 0)
                 }}
                 onReturningToAllSolutions={() => {

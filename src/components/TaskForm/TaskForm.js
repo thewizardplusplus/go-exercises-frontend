@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
+import { fetchJsonData } from '../../hooks/fetchJsonData.js'
 import {
   Spin,
   Form,
@@ -31,33 +32,30 @@ export function TaskForm() {
         return
       }
 
-      setLoading(true)
+      await fetchJsonData('GET', `/api/v1/tasks/${id}`, {
+        headers: { Authorization: authHeader() },
 
-      try {
-        const response = await fetch(`/api/v1/tasks/${id}`, {
-          method: 'GET',
-          headers: { Authorization: authHeader() },
-        })
-        if (!response.ok) {
-          const errMessage = await response.text()
-          throw new Error(errMessage)
-        }
-
-        const task = await response.json()
-        form.setFieldsValue({
-          title: task.Title,
-          description: task.Description,
-          boilerplateCode: task.BoilerplateCode,
-          testCases: task.TestCases.map(testCase => ({
-            input: testCase.Input,
-            expectedOutput: testCase.ExpectedOutput,
-          })),
-        })
-      } catch (exception) {
-        message.error(exception.toString())
-      } finally {
-        setLoading(false)
-      }
+        onLoadingBeginning: () => {
+          setLoading(true)
+        },
+        onLoadingSuccess: task => {
+          form.setFieldsValue({
+            title: task.Title,
+            description: task.Description,
+            boilerplateCode: task.BoilerplateCode,
+            testCases: task.TestCases.map(testCase => ({
+              input: testCase.Input,
+              expectedOutput: testCase.ExpectedOutput,
+            })),
+          })
+        },
+        onLoadingFailure: exception => {
+          message.error(exception.toString())
+        },
+        onLoadingEnding: () => {
+          setLoading(false)
+        },
+      })
     })()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -167,9 +165,12 @@ export function TaskForm() {
 
                   <Form.Item
                     noStyle
-                    shouldUpdate={(previousData, currentData) =>
-                      previousData.expectedOutput !== currentData.expectedOutput
-                    }
+                    shouldUpdate={(previousData, currentData) => {
+                      return (
+                        previousData.expectedOutput !==
+                        currentData.expectedOutput
+                      )
+                    }}
                   >
                     <Form.Item
                       {...field}

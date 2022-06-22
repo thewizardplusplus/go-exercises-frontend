@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
+import { fetchJsonData } from '../../hooks/fetchJsonData.js'
 import { Spin, Form, Row, Col, Button, message } from 'antd'
 import { Editor } from '../Editor/Editor.js'
 import './SolutionForm.css'
@@ -16,25 +17,22 @@ export function SolutionForm(props) {
         return
       }
 
-      setLoading(true)
+      await fetchJsonData('GET', `/api/v1/solutions/${props.solutionID}`, {
+        headers: { Authorization: authHeader() },
 
-      try {
-        const response = await fetch(`/api/v1/solutions/${props.solutionID}`, {
-          method: 'GET',
-          headers: { Authorization: authHeader() },
-        })
-        if (!response.ok) {
-          const errMessage = await response.text()
-          throw new Error(errMessage)
-        }
-
-        const solution = await response.json()
-        form.setFieldsValue({ code: solution.Code })
-      } catch (exception) {
-        message.error(exception.toString())
-      } finally {
-        setLoading(false)
-      }
+        onLoadingBeginning: () => {
+          setLoading(true)
+        },
+        onLoadingSuccess: solution => {
+          form.setFieldsValue({ code: solution.Code })
+        },
+        onLoadingFailure: exception => {
+          message.error(exception.toString())
+        },
+        onLoadingEnding: () => {
+          setLoading(false)
+        },
+      })
     })()
   }, [props.solutionID]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -81,30 +79,24 @@ export function SolutionForm(props) {
               {
                 name: 'format',
                 bindKey: { win: 'Ctrl-S', mac: 'Command-S' },
-                exec: async editor => {
-                  setLoading(true)
+                exec: async () => {
+                  await fetchJsonData('POST', '/api/v1/solutions/format', {
+                    headers: { Authorization: authHeader() },
+                    data: form.getFieldsValue(),
 
-                  try {
-                    const response = await fetch('/api/v1/solutions/format', {
-                      method: 'POST',
-                      headers: {
-                        Authorization: authHeader(),
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify(form.getFieldsValue()),
-                    })
-                    if (!response.ok) {
-                      const errMessage = await response.text()
-                      throw new Error(errMessage)
-                    }
-
-                    const solution = await response.json()
-                    form.setFieldsValue({ code: solution.Code })
-                  } catch (exception) {
-                    message.error(exception.toString())
-                  } finally {
-                    setLoading(false)
-                  }
+                    onLoadingBeginning: () => {
+                      setLoading(true)
+                    },
+                    onLoadingSuccess: solution => {
+                      form.setFieldsValue({ code: solution.Code })
+                    },
+                    onLoadingFailure: exception => {
+                      message.error(exception.toString())
+                    },
+                    onLoadingEnding: () => {
+                      setLoading(false)
+                    },
+                  })
                 },
               },
             ]}

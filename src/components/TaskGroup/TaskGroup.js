@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
 import { useParams, useHistory } from 'react-router-dom'
+import { fetchJsonData } from '../../hooks/fetchJsonData.js'
 import { List, Button, message } from 'antd'
 import { Link } from 'react-router-dom'
 import { StatusSign } from '../StatusSign/StatusSign.js'
@@ -16,29 +17,24 @@ export function TaskGroup() {
 
   const pageSize = 5
   const loadTasks = async page => {
-    setLoading(true)
+    const url = `/api/v1/tasks/?pageSize=${pageSize}&page=${page}`
+    await fetchJsonData('GET', url, {
+      headers: { Authorization: authHeader() },
 
-    try {
-      const response = await fetch(
-        `/api/v1/tasks/?pageSize=${pageSize}&page=${page}`,
-        {
-          method: 'GET',
-          headers: { Authorization: authHeader() },
-        },
-      )
-      if (!response.ok) {
-        const errMessage = await response.text()
-        throw new Error(errMessage)
-      }
-
-      const tasks = await response.json()
-      setTasks(tasks)
-      setPage(page)
-    } catch (exception) {
-      message.error(exception.toString())
-    } finally {
-      setLoading(false)
-    }
+      onLoadingBeginning: () => {
+        setLoading(true)
+      },
+      onLoadingSuccess: tasks => {
+        setTasks(tasks)
+        setPage(page)
+      },
+      onLoadingFailure: exception => {
+        message.error(exception.toString())
+      },
+      onLoadingEnding: () => {
+        setLoading(false)
+      },
+    })
   }
   useEffect(() => {
     loadTasks(page)
@@ -58,9 +54,9 @@ export function TaskGroup() {
             <List.Item.Meta
               avatar={<StatusSign statusCode={task.Status} />}
               title={
-                <Link
-                  to={`/tasks/${task.ID}`}
-                >{`#${task.ID} ${task.Title}`}</Link>
+                <Link to={`/tasks/${task.ID}`}>
+                  {`#${task.ID} ${task.Title}`}
+                </Link>
               }
               description={<ItemDetails item={task} />}
             />
@@ -68,9 +64,10 @@ export function TaskGroup() {
         )}
         pagination={{
           current: page,
-          pageSize,
           total: tasks.TotalCount,
+          pageSize,
           showSizeChanger: false,
+
           onChange: page => {
             const url = page !== 1 ? `/page/${page}` : '/'
             window.history.replaceState(null, '', url)
@@ -83,7 +80,9 @@ export function TaskGroup() {
         className="task-group-new-task-button"
         type="primary"
         block
-        onClick={() => history.push('/tasks/new')}
+        onClick={() => {
+          history.push('/tasks/new')
+        }}
       >
         New task
       </Button>

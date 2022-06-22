@@ -3,6 +3,7 @@ import { useSignIn } from 'react-auth-kit'
 import { Redirect, useHistory } from 'react-router-dom'
 import { useIsAuthenticated } from 'react-auth-kit'
 import { Spin, Form, Input, Button, message } from 'antd'
+import { fetchJsonData } from '../../hooks/fetchJsonData.js'
 import jwtDecode from 'jwt-decode'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
@@ -22,37 +23,35 @@ export function LoginForm() {
       <Form
         wrapperCol={{ span: 6, offset: 9 }}
         onFinish={async data => {
-          setLoading(true)
+          await fetchJsonData('POST', '/api/v1/tokens/', {
+            data,
 
-          try {
-            const response = await fetch('/api/v1/tokens/', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(data),
-            })
-            if (!response.ok) {
-              const errMessage = await response.text()
-              throw new Error(errMessage)
-            }
+            onLoadingBeginning: () => {
+              setLoading(true)
+            },
+            onLoadingSuccess: credentials => {
+              const decodedCredentials = jwtDecode(credentials.AccessToken)
+              const isSignedIn = signIn({
+                tokenType: 'Bearer',
+                token: credentials.AccessToken,
+                expiresIn: decodedCredentials.exp / 60, // convert seconds to minutes
+                authState: decodedCredentials.User,
+              })
+              if (!isSignedIn) {
+                throw new Error('unable to sign in')
+              }
 
-            const credentials = await response.json()
-            const decodedCredentials = jwtDecode(credentials.AccessToken)
-            const isSignedIn = signIn({
-              tokenType: 'Bearer',
-              token: credentials.AccessToken,
-              // convert seconds to minutes
-              expiresIn: decodedCredentials.exp / 60,
-              authState: decodedCredentials.User,
-            })
-            if (!isSignedIn) {
-              throw new Error('unable to sign in')
-            }
-
-            history.push('/')
-          } catch (exception) {
-            setLoading(false)
-            message.error(exception.toString())
-          }
+              history.push('/')
+            },
+            onLoadingFailure: exception => {
+              message.error(exception.toString())
+            },
+            onLoadingEnding: isSuccessful => {
+              if (!isSuccessful) {
+                setLoading(false)
+              }
+            },
+          })
         }}
       >
         <Form.Item name="username">

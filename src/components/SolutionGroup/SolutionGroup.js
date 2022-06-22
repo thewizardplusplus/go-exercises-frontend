@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
+import { fetchJsonData } from '../../hooks/fetchJsonData.js'
 import { Button, List, message } from 'antd'
 import { StatusSign } from '../StatusSign/StatusSign.js'
 import { SolutionDetails } from '../SolutionDetails/SolutionDetails.js'
@@ -15,37 +16,34 @@ export function SolutionGroup(props) {
 
   const pageSize = 5
   const loadSolutions = async (page, additionalHandler) => {
-    setLoading(true)
+    const url =
+      props.solutionID === undefined
+        ? `/api/v1/tasks/${props.taskID}/solutions/?pageSize=${pageSize}&page=${page}`
+        : `/api/v1/solutions/${props.solutionID}`
+    await fetchJsonData('GET', url, {
+      headers: { Authorization: authHeader() },
 
-    try {
-      const url =
-        props.solutionID === undefined
-          ? `/api/v1/tasks/${props.taskID}/solutions/?pageSize=${pageSize}&page=${page}`
-          : `/api/v1/solutions/${props.solutionID}`
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: { Authorization: authHeader() },
-      })
-      if (!response.ok) {
-        const errMessage = await response.text()
-        throw new Error(errMessage)
-      }
-
-      const data = await response.json()
-      const solutions =
-        props.solutionID === undefined
-          ? data
-          : { Solutions: [data], TotalCount: 1 }
-      setSolutions(solutions)
-      setPage(props.solutionID === undefined ? page : 1)
-      if (additionalHandler) {
-        additionalHandler()
-      }
-    } catch (exception) {
-      message.error(exception.toString())
-    } finally {
-      setLoading(false)
-    }
+      onLoadingBeginning: () => {
+        setLoading(true)
+      },
+      onLoadingSuccess: data => {
+        const solutions =
+          props.solutionID === undefined
+            ? data
+            : { Solutions: [data], TotalCount: 1 }
+        setSolutions(solutions)
+        setPage(props.solutionID === undefined ? page : 1)
+        if (additionalHandler) {
+          additionalHandler()
+        }
+      },
+      onLoadingFailure: exception => {
+        message.error(exception.toString())
+      },
+      onLoadingEnding: () => {
+        setLoading(false)
+      },
+    })
   }
   useEffect(() => {
     loadSolutions(page)
@@ -112,9 +110,10 @@ export function SolutionGroup(props) {
         )}
         pagination={{
           current: page,
-          pageSize,
           total: solutions.TotalCount,
+          pageSize,
           showSizeChanger: false,
+
           onChange: page => {
             const url =
               page !== 1
