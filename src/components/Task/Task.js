@@ -81,23 +81,24 @@ export function Task(props) {
               <Button
                 icon={<DeleteOutlined />}
                 onClick={async () => {
-                  setLoading(true)
+                  await fetchJsonData('DELETE', `/api/v1/tasks/${id}`, {
+                    headers: { Authorization: authHeader() },
 
-                  try {
-                    const response = await fetch(`/api/v1/tasks/${id}`, {
-                      method: 'DELETE',
-                      headers: { Authorization: authHeader() },
-                    })
-                    if (!response.ok) {
-                      const errMessage = await response.text()
-                      throw new Error(errMessage)
-                    }
-
-                    history.push('/')
-                  } catch (exception) {
-                    setLoading(false)
-                    message.error(exception.toString())
-                  }
+                    onLoadingBeginning: () => {
+                      setLoading(true)
+                    },
+                    onLoadingSuccess: () => {
+                      history.push('/')
+                    },
+                    onLoadingFailure: exception => {
+                      message.error(exception.toString())
+                    },
+                    onLoadingEnding: isSuccessful => {
+                      if (!isSuccessful) {
+                        setLoading(false)
+                      }
+                    },
+                  })
                 }}
               />
             </Tooltip>

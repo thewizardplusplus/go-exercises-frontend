@@ -1,3 +1,26 @@
+async function parseResponse(response) {
+  const contentType = response.headers.get('Content-Type')
+  if (contentType === null) {
+    return undefined
+  }
+
+  let data
+  const mimeType = contentType.split(';', 1)[0].trim()
+  switch (mimeType) {
+    case 'text/plain':
+    case 'text/html':
+      data = await response.text()
+      break
+    case 'application/json':
+      data = await response.json()
+      break
+    default:
+      throw new Error(`unsupported MIME type "${mimeType}"`)
+  }
+
+  return data
+}
+
 export async function fetchJsonData(method, url, options) {
   options.onLoadingBeginning && options.onLoadingBeginning()
 
@@ -12,11 +35,11 @@ export async function fetchJsonData(method, url, options) {
       body: options.data && JSON.stringify(options.data),
     })
     if (!response.ok) {
-      const errMessage = await response.text()
+      const errMessage = await parseResponse(response)
       throw new Error(errMessage)
     }
 
-    const data = await response.json()
+    const data = await parseResponse(response)
     options.onLoadingSuccess(data)
 
     isSuccessful = true

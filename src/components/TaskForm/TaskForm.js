@@ -60,39 +60,33 @@ export function TaskForm() {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const saveTask = async (data, handler) => {
-    setLoading(true)
+    const method = id === undefined ? 'POST' : 'PUT'
+    await fetchJsonData(method, `/api/v1/tasks/${id ?? ''}`, {
+      headers: { Authorization: authHeader() },
+      data: {
+        ...data,
+        testCases: data.testCases.map(testCase => ({
+          Input: testCase.input,
+          ExpectedOutput: testCase.expectedOutput,
+        })),
+      },
 
-    try {
-      const response = await fetch(`/api/v1/tasks/${id ?? ''}`, {
-        method: id === undefined ? 'POST' : 'PUT',
-        headers: {
-          Authorization: authHeader(),
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          testCases: data.testCases.map(testCase => ({
-            Input: testCase.input,
-            ExpectedOutput: testCase.expectedOutput,
-          })),
-        }),
-      })
-      if (!response.ok) {
-        const errMessage = await response.text()
-        throw new Error(errMessage)
-      }
-
-      let idForRedirection = id
-      if (idForRedirection === undefined) {
-        const task = await response.json()
-        idForRedirection = task.ID
-      }
-
-      handler(idForRedirection)
-    } catch (exception) {
-      setLoading(false)
-      message.error(exception.toString())
-    }
+      onLoadingBeginning: () => {
+        setLoading(true)
+      },
+      onLoadingSuccess: task => {
+        let idForRedirection = id ?? task.ID
+        handler(idForRedirection)
+      },
+      onLoadingFailure: exception => {
+        message.error(exception.toString())
+      },
+      onLoadingEnding: isSuccessful => {
+        if (!isSuccessful) {
+          setLoading(false)
+        }
+      },
+    })
   }
   return (
     <Spin spinning={loading}>

@@ -43,32 +43,25 @@ export function SolutionForm(props) {
         initialValues={{ code: props.boilerplateCode }}
         form={form}
         onFinish={async data => {
-          setLoading(true)
+          const url = `/api/v1/tasks/${props.taskID}/solutions/`
+          await fetchJsonData('POST', url, {
+            headers: { Authorization: authHeader() },
+            data,
 
-          try {
-            const response = await fetch(
-              `/api/v1/tasks/${props.taskID}/solutions/`,
-              {
-                method: 'POST',
-                headers: {
-                  Authorization: authHeader(),
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-              },
-            )
-            if (!response.ok) {
-              const errMessage = await response.text()
-              throw new Error(errMessage)
-            }
-
-            props.onSolutionSubmission()
-            message.success('Solution submitted')
-          } catch (exception) {
-            message.error(exception.toString())
-          } finally {
-            setLoading(false)
-          }
+            onLoadingBeginning: () => {
+              setLoading(true)
+            },
+            onLoadingSuccess: () => {
+              props.onSolutionSubmission()
+              message.success('Solution submitted')
+            },
+            onLoadingFailure: exception => {
+              message.error(exception.toString())
+            },
+            onLoadingEnding: () => {
+              setLoading(false)
+            },
+          })
         }}
       >
         <Form.Item name="code">
