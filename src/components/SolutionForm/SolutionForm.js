@@ -8,6 +8,9 @@ export function SolutionForm(props) {
   const { loading, fetchJsonData } = useJsonDataFetchingWithAuth()
   const [form] = Form.useForm()
 
+  const setSolution = solution => {
+    form.setFieldsValue({ code: solution.Code })
+  }
   useEffect(() => {
     ;(async () => {
       if (props.solutionID === undefined) {
@@ -17,7 +20,7 @@ export function SolutionForm(props) {
 
       await fetchJsonData('GET', `/api/v1/solutions/${props.solutionID}`, {
         onLoadingSuccess: solution => {
-          form.setFieldsValue({ code: solution.Code })
+          setSolution(solution)
         },
       })
     })()
@@ -54,7 +57,7 @@ export function SolutionForm(props) {
                     data: form.getFieldsValue(),
 
                     onLoadingSuccess: solution => {
-                      form.setFieldsValue({ code: solution.Code })
+                      setSolution(solution)
                     },
                   })
                 },
