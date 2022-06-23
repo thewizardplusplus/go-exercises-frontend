@@ -34,7 +34,7 @@ export async function fetchJsonData(method, url, options) {
 
   options.onLoadingBeginning && options.onLoadingBeginning()
 
-  let isSuccessful = false
+  let isFinishingRequired = true
   try {
     const response = await fetch(url, {
       method,
@@ -50,12 +50,13 @@ export async function fetchJsonData(method, url, options) {
     }
 
     const data = await parseResponse(response)
-    options.onLoadingSuccess(data)
-
-    isSuccessful = true
+    isFinishingRequired = options.onLoadingSuccess(data) ?? isFinishingRequired
   } catch (exception) {
-    options.onLoadingFailure(exception)
+    isFinishingRequired =
+      options.onLoadingFailure(exception) ?? isFinishingRequired
   } finally {
-    options.onLoadingEnding && options.onLoadingEnding(isSuccessful)
+    if (isFinishingRequired) {
+      options.onLoadingEnding && options.onLoadingEnding()
+    }
   }
 }

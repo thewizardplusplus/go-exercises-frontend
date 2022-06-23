@@ -42,11 +42,10 @@ export function LoginForm() {
               }
 
               history.push('/')
+              return false // finishing not required
             },
-            onLoadingEnding: isSuccessful => {
-              if (!isSuccessful) {
-                setLoading(false)
-              }
+            onLoadingEnding: () => {
+              setLoading(false)
             },
           })
         }}

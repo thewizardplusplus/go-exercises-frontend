@@ -63,12 +63,10 @@ export function TaskForm() {
       },
       onLoadingSuccess: task => {
         let idForRedirection = id ?? task.ID
-        handler(idForRedirection)
+        return handler(idForRedirection)
       },
-      onLoadingEnding: isSuccessful => {
-        if (!isSuccessful) {
-          setLoading(false)
-        }
+      onLoadingEnding: () => {
+        setLoading(false)
       },
     })
   }
@@ -85,11 +83,12 @@ export function TaskForm() {
           }
 
           saveTask(form.getFieldsValue(), idForRedirection => {
-            if (id === undefined) {
-              history.push(`/tasks/${idForRedirection}/edit`)
-            } else {
-              setLoading(false)
+            if (id !== undefined) {
+              return
             }
+
+            history.push(`/tasks/${idForRedirection}/edit`)
+            return false // finishing not required
           })
 
           event.preventDefault()
@@ -97,6 +96,7 @@ export function TaskForm() {
         onFinish={async data => {
           await saveTask(data, idForRedirection => {
             history.push(`/tasks/${idForRedirection}`)
+            return false // finishing not required
           })
         }}
       >
