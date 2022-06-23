@@ -44,6 +44,16 @@ export function Task(props) {
     })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const updateURL = (activeTab, taskID, solutionID) => {
+    const url =
+      activeTab === '1'
+        ? `/tasks/${taskID}`
+        : solutionID !== undefined
+        ? `/tasks/${taskID}/solutions/${solutionID}`
+        : `/tasks/${taskID}/solutions`
+    window.history.replaceState(null, '', url)
+    setSolutionID(solutionID)
+  }
   return (
     <Card
       loading={loading}
@@ -90,12 +100,8 @@ export function Task(props) {
             activeKey={activeTab}
             destroyInactiveTabPane={true}
             onChange={activeKey => {
-              const url =
-                activeKey === '1' ? `/tasks/${id}` : `/tasks/${id}/solutions`
-              window.history.replaceState(null, '', url)
-              setSolutionID(undefined)
-
               setActiveTab(activeKey)
+              updateURL(activeKey, id)
             }}
           >
             <Tabs.TabPane key="1" tab="Description">
@@ -111,16 +117,11 @@ export function Task(props) {
                   })
                 }}
                 onSolutionSelection={solution => {
-                  const url = `/tasks/${id}/solutions/${solution.ID}`
-                  window.history.replaceState(null, '', url)
-                  setSolutionID(solution.ID)
-
                   window.scroll(0, 0)
+                  updateURL('2', id, solution.ID)
                 }}
                 onReturningToAllSolutions={() => {
-                  const url = `/tasks/${id}/solutions`
-                  window.history.replaceState(null, '', url)
-                  setSolutionID(undefined)
+                  updateURL('2', id)
                 }}
               />
             </Tabs.TabPane>
@@ -132,11 +133,8 @@ export function Task(props) {
             solutionID={solutionID}
             boilerplateCode={task?.BoilerplateCode}
             onSolutionSubmission={() => {
-              const url = `/tasks/${id}/solutions`
-              window.history.replaceState(null, '', url)
-              setSolutionID(undefined)
-
               setActiveTab('2')
+              updateURL('2', id)
             }}
           />
         </Col>
