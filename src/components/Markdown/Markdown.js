@@ -6,6 +6,10 @@ import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import React from 'react'
 import './Markdown.css'
 
+function makeColumnIndex(index) {
+  return `column${index}`
+}
+
 export function Markdown(props) {
   return (
     <Typography.Paragraph className="markdown-paragraph">
@@ -41,16 +45,17 @@ export function Markdown(props) {
                     switch (type) {
                       case 'th':
                         columns.push({
-                          dataIndex: `column${columns.length}`,
+                          dataIndex: makeColumnIndex(columns.length),
                           title: children.toString(),
                         })
                         break
                       case 'td':
+                        const columnIndex = makeColumnIndex(
+                          Object.keys(columnData).length,
+                        )
                         columnData = {
                           ...columnData,
-                          [`column${
-                            Object.keys(columnData).length
-                          }`]: children.toString(),
+                          [columnIndex]: children.toString(),
                         }
                         break
                       default:
