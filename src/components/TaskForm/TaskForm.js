@@ -1,16 +1,16 @@
-import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { Form, Spin, Input, Card, Tooltip, Button, Row, Col } from 'antd'
+import { useJSONDataFetchingWithAuth } from '../../hooks/hooks.js'
 import { useHistory } from 'react-router-dom'
-import { useJsonDataFetchingWithAuth } from '../../hooks/hooks.js'
-import { Spin, Form, Input, Card, Tooltip, Row, Col, Button } from 'antd'
-import { DeleteOutlined } from '@ant-design/icons'
+import { useEffect } from 'react'
 import { Editor } from '../Editor/Editor.js'
+import { DeleteOutlined } from '@ant-design/icons'
 import './TaskForm.css'
 
 export function TaskForm() {
-  const { loading, fetchJsonData } = useJsonDataFetchingWithAuth()
   const { id } = useParams()
   const [form] = Form.useForm()
+  const { loading, fetchJSONData } = useJSONDataFetchingWithAuth()
   const history = useHistory()
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export function TaskForm() {
         return
       }
 
-      await fetchJsonData('GET', `/api/v1/tasks/${id}`, {
+      await fetchJSONData('GET', `/api/v1/tasks/${id}`, {
         onLoadingSuccess: task => {
           form.setFieldsValue({
             title: task.Title,
@@ -38,7 +38,7 @@ export function TaskForm() {
 
   const saveTask = async (data, handler) => {
     const method = id === undefined ? 'POST' : 'PUT'
-    await fetchJsonData(method, `/api/v1/tasks/${id ?? ''}`, {
+    await fetchJSONData(method, `/api/v1/tasks/${id ?? ''}`, {
       data: {
         ...data,
         testCases: data.testCases.map(testCase => ({

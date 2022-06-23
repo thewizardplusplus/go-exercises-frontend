@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import { fetchJsonData } from './fetchJsonData.js'
+import { fetchJSONData } from './fetchJSONData.js'
 import { useAuthHeader } from 'react-auth-kit'
 
-export function useJsonDataFetching() {
+export function useJSONDataFetching() {
   const [loading, setLoading] = useState(false)
 
   return {
     loading,
 
-    fetchJsonData: async (method, url, options) => {
-      await fetchJsonData(method, url, {
+    fetchJSONData: async (method, url, options) => {
+      await fetchJSONData(method, url, {
         ...options,
 
         onLoadingBeginning: () => {
@@ -23,15 +23,15 @@ export function useJsonDataFetching() {
   }
 }
 
-export function useJsonDataFetchingWithAuth() {
-  const { loading, fetchJsonData } = useJsonDataFetching()
+export function useJSONDataFetchingWithAuth() {
+  const { loading, fetchJSONData } = useJSONDataFetching()
   const authHeader = useAuthHeader()
 
   return {
     loading,
 
-    fetchJsonData: async (method, url, options) => {
-      await fetchJsonData(method, url, {
+    fetchJSONData: async (method, url, options) => {
+      await fetchJSONData(method, url, {
         ...options,
         headers: {
           ...(options.headers ?? {}),

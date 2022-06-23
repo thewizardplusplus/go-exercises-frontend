@@ -1,14 +1,15 @@
 import { useIsAuthenticated, useAuthUser, useSignOut } from 'react-auth-kit'
 import { PageHeader as AntPageHeader, Tooltip, Tag, Avatar, Button } from 'antd'
-import { HomeOutlined, LogoutOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import packageInfo from '../../../package.json'
+import { HomeOutlined, LogoutOutlined } from '@ant-design/icons'
 import './PageHeader.css'
 
 export function PageHeader() {
   const isAuthenticated = useIsAuthenticated()
-  const auth = useAuthUser()
+  const authUser = useAuthUser()
   const signOut = useSignOut()
+
   return (
     <AntPageHeader
       backIcon={
@@ -27,9 +28,9 @@ export function PageHeader() {
       onBack={() => null}
       extra={[
         isAuthenticated() && (
-          <Tooltip key="1" title={auth().Username}>
+          <Tooltip key="1" title={authUser().Username}>
             <Avatar className="page-header-user-avatar">
-              {auth().Username.toUpperCase().charAt(0)}
+              {authUser().Username.toUpperCase().charAt(0)}
             </Avatar>
           </Tooltip>
         ),

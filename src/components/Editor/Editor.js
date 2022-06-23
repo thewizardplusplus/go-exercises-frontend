@@ -1,8 +1,8 @@
 import AceEditor from 'react-ace'
 import 'ace-builds/webpack-resolver'
+import 'ace-builds/src-noconflict/theme-monokai'
 import 'ace-builds/src-noconflict/mode-markdown'
 import 'ace-builds/src-noconflict/mode-golang'
-import 'ace-builds/src-noconflict/theme-monokai'
 
 export function Editor(props) {
   return (

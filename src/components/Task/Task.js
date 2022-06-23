@@ -1,34 +1,34 @@
-import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useJSONDataFetchingWithAuth } from '../../hooks/hooks.js'
 import { useAuthUser } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { useJsonDataFetchingWithAuth } from '../../hooks/hooks.js'
 import { Card, Space, Tooltip, Button, Spin, Row, Col, Tabs } from 'antd'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { StatusSign } from '../StatusSign/StatusSign.js'
 import { ItemDetails } from '../ItemDetails/ItemDetails.js'
 import { Markdown } from '../Markdown/Markdown.js'
 import { SolutionGroup } from '../SolutionGroup/SolutionGroup.js'
 import { SolutionForm } from '../SolutionForm/SolutionForm.js'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import './Task.css'
 
 export function Task(props) {
-  const { loading, fetchJsonData } = useJsonDataFetchingWithAuth()
-  const {
-    loading: statusLoading,
-    fetchJsonData: fetchStatusJsonData,
-  } = useJsonDataFetchingWithAuth()
-  const [task, setTask] = useState(null)
-  const [taskStatus, setTaskStatus] = useState(null)
-  const [activeTab, setActiveTab] = useState(
-    !props.solutionGroupMode ? '1' : '2',
-  )
   const { id, solutionID: defaultSolutionID } = useParams()
   const [solutionID, setSolutionID] = useState(
     parseInt(defaultSolutionID, 10) || undefined,
   )
-  const auth = useAuthUser()
+  const { loading, fetchJSONData } = useJSONDataFetchingWithAuth()
+  const {
+    loading: statusLoading,
+    fetchJSONData: fetchStatusJSONData,
+  } = useJSONDataFetchingWithAuth()
+  const [task, setTask] = useState(null)
+  const [taskStatus, setTaskStatus] = useState(null)
+  const authUser = useAuthUser()
   const history = useHistory()
+  const [activeTab, setActiveTab] = useState(
+    !props.solutionGroupMode ? '1' : '2',
+  )
 
   const loadTask = async (id, loader, handler) => {
     await loader('GET', `/api/v1/tasks/${id}`, {
@@ -38,7 +38,7 @@ export function Task(props) {
     })
   }
   useEffect(() => {
-    loadTask(id, fetchJsonData, task => {
+    loadTask(id, fetchJSONData, task => {
       setTask(task)
       setTaskStatus(task.Status)
     })
@@ -48,7 +48,7 @@ export function Task(props) {
     <Card
       loading={loading}
       extra={
-        auth().ID === task?.UserID && (
+        authUser().ID === task?.UserID && (
           <Space>
             <Tooltip title="Edit">
               <Button
@@ -62,7 +62,7 @@ export function Task(props) {
               <Button
                 icon={<DeleteOutlined />}
                 onClick={async () => {
-                  await fetchJsonData('DELETE', `/api/v1/tasks/${id}`, {
+                  await fetchJSONData('DELETE', `/api/v1/tasks/${id}`, {
                     onLoadingSuccess: () => {
                       history.push('/')
                       return false // finishing not required
@@ -106,7 +106,7 @@ export function Task(props) {
                 taskID={id}
                 solutionID={solutionID}
                 onSolutionUpdate={() => {
-                  loadTask(id, fetchStatusJsonData, task => {
+                  loadTask(id, fetchStatusJSONData, task => {
                     setTaskStatus(task.Status)
                   })
                 }}

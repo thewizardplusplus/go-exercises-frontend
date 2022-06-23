@@ -1,24 +1,25 @@
+import { useJSONDataFetchingWithAuth } from '../../hooks/hooks.js'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useJsonDataFetchingWithAuth } from '../../hooks/hooks.js'
 import { Button, List } from 'antd'
 import { StatusSign } from '../StatusSign/StatusSign.js'
 import { SolutionDetails } from '../SolutionDetails/SolutionDetails.js'
 import './SolutionGroup.css'
 
+const pageSize = 5
+
 export function SolutionGroup(props) {
-  const { loading, fetchJsonData } = useJsonDataFetchingWithAuth()
+  const { loading, fetchJSONData } = useJSONDataFetchingWithAuth()
   const [solutions, setSolutions] = useState({ Solutions: [], TotalCount: 0 })
   const { page: defaultPage } = useParams()
   const [page, setPage] = useState(parseInt(defaultPage, 10) || 1)
 
-  const pageSize = 5
   const loadSolutions = async (page, additionalHandler) => {
     const url =
       props.solutionID === undefined
         ? `/api/v1/tasks/${props.taskID}/solutions/?pageSize=${pageSize}&page=${page}`
         : `/api/v1/solutions/${props.solutionID}`
-    await fetchJsonData('GET', url, {
+    await fetchJSONData('GET', url, {
       onLoadingSuccess: data => {
         const solutions =
           props.solutionID === undefined
@@ -26,9 +27,7 @@ export function SolutionGroup(props) {
             : { Solutions: [data], TotalCount: 1 }
         setSolutions(solutions)
         setPage(props.solutionID === undefined ? page : 1)
-        if (additionalHandler) {
-          additionalHandler()
-        }
+        additionalHandler && additionalHandler()
       },
     })
   }

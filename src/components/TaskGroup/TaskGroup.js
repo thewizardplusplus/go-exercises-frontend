@@ -1,22 +1,24 @@
+import { useJSONDataFetchingWithAuth } from '../../hooks/hooks.js'
 import { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { useJsonDataFetchingWithAuth } from '../../hooks/hooks.js'
 import { List, Button } from 'antd'
-import { Link } from 'react-router-dom'
 import { StatusSign } from '../StatusSign/StatusSign.js'
+import { Link } from 'react-router-dom'
 import { ItemDetails } from '../ItemDetails/ItemDetails.js'
 import './TaskGroup.css'
 
+const pageSize = 5
+
 export function TaskGroup() {
-  const { loading, fetchJsonData } = useJsonDataFetchingWithAuth()
+  const { loading, fetchJSONData } = useJSONDataFetchingWithAuth()
   const [tasks, setTasks] = useState({ Tasks: [], TotalCount: 0 })
   const { page: defaultPage } = useParams()
   const [page, setPage] = useState(parseInt(defaultPage, 10) || 1)
+  const history = useHistory()
 
-  const pageSize = 5
   const loadTasks = async page => {
     const url = `/api/v1/tasks/?pageSize=${pageSize}&page=${page}`
-    await fetchJsonData('GET', url, {
+    await fetchJSONData('GET', url, {
       onLoadingSuccess: tasks => {
         setTasks(tasks)
         setPage(page)
@@ -27,7 +29,6 @@ export function TaskGroup() {
     loadTasks(page)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const history = useHistory()
   return (
     <>
       <List

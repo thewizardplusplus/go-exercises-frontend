@@ -1,27 +1,25 @@
+import { useIsAuthenticated } from 'react-auth-kit'
+import { useJSONDataFetching } from '../../hooks/hooks.js'
 import { useSignIn } from 'react-auth-kit'
 import { Redirect, useHistory } from 'react-router-dom'
-import { useIsAuthenticated } from 'react-auth-kit'
 import { Spin, Form, Input, Button } from 'antd'
-import { useJsonDataFetching } from '../../hooks/hooks.js'
 import jwtDecode from 'jwt-decode'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 export function LoginForm() {
-  const { loading, fetchJsonData } = useJsonDataFetching()
+  const isAuthenticated = useIsAuthenticated()
+  const { loading, fetchJSONData } = useJSONDataFetching()
   const signIn = useSignIn()
   const history = useHistory()
 
-  const isAuthenticated = useIsAuthenticated()
-  if (isAuthenticated()) {
-    return <Redirect to="/" />
-  }
-
-  return (
+  return isAuthenticated() ? (
+    <Redirect to="/" />
+  ) : (
     <Spin spinning={loading}>
       <Form
         wrapperCol={{ span: 6, offset: 9 }}
         onFinish={async data => {
-          await fetchJsonData('POST', '/api/v1/tokens/', {
+          await fetchJSONData('POST', '/api/v1/tokens/', {
             data,
 
             onLoadingSuccess: credentials => {

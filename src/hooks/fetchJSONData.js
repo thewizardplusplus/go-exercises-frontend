@@ -23,7 +23,7 @@ async function parseResponse(response) {
   return data
 }
 
-export async function fetchJsonData(method, url, options) {
+export async function fetchJSONData(method, url, options) {
   // default options
   options = {
     onLoadingFailure: exception => {

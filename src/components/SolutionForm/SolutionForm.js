@@ -1,12 +1,12 @@
+import { Form, Spin, Row, Col, Button, message } from 'antd'
+import { useJSONDataFetchingWithAuth } from '../../hooks/hooks.js'
 import { useEffect } from 'react'
-import { useJsonDataFetchingWithAuth } from '../../hooks/hooks.js'
-import { Spin, Form, Row, Col, Button, message } from 'antd'
 import { Editor } from '../Editor/Editor.js'
 import './SolutionForm.css'
 
 export function SolutionForm(props) {
-  const { loading, fetchJsonData } = useJsonDataFetchingWithAuth()
   const [form] = Form.useForm()
+  const { loading, fetchJSONData } = useJSONDataFetchingWithAuth()
 
   const setSolution = solution => {
     form.setFieldsValue({ code: solution.Code })
@@ -18,7 +18,7 @@ export function SolutionForm(props) {
         return
       }
 
-      await fetchJsonData('GET', `/api/v1/solutions/${props.solutionID}`, {
+      await fetchJSONData('GET', `/api/v1/solutions/${props.solutionID}`, {
         onLoadingSuccess: solution => {
           setSolution(solution)
         },
@@ -34,7 +34,7 @@ export function SolutionForm(props) {
         form={form}
         onFinish={async data => {
           const url = `/api/v1/tasks/${props.taskID}/solutions/`
-          await fetchJsonData('POST', url, {
+          await fetchJSONData('POST', url, {
             data,
 
             onLoadingSuccess: () => {
@@ -51,9 +51,10 @@ export function SolutionForm(props) {
             commands={[
               {
                 name: 'format',
+                // handle the "Ctrl+S" and "Cmd+S" combinations
                 bindKey: { win: 'Ctrl-S', mac: 'Command-S' },
                 exec: async () => {
-                  await fetchJsonData('POST', '/api/v1/solutions/format', {
+                  await fetchJSONData('POST', '/api/v1/solutions/format', {
                     data: form.getFieldsValue(),
 
                     onLoadingSuccess: solution => {

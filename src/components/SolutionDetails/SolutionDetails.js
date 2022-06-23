@@ -3,8 +3,9 @@ import { Typography } from 'antd'
 import { TestCase } from '../TestCase/TestCase.js'
 import './SolutionDetails.css'
 
+const quotedStringPattern = /"([^"]|\\.)*"/
+
 export function SolutionDetails(props) {
-  const quotedStringPattern = /"([^"]|\\.)*"/
   return (
     <ItemDetails
       item={props.solution}
@@ -57,14 +58,14 @@ export function SolutionDetails(props) {
                 <>
                   {props.solution.Result.ErrMessage}
 
-                  {props.solution.Result.ErrMessage.match(
-                    quotedStringPattern,
+                  {quotedStringPattern.test(
+                    props.solution.Result.ErrMessage,
                   ) && (
                     <Typography.Paragraph className="solution-details-preformatted-paragraph">
                       <pre>
                         {JSON.parse(
-                          props.solution.Result.ErrMessage.match(
-                            quotedStringPattern,
+                          quotedStringPattern.exec(
+                            props.solution.Result.ErrMessage,
                           )[0],
                         )}
                       </pre>

@@ -1,5 +1,5 @@
-import { Alert } from 'antd'
 import { TestCaseNote } from '../TestCaseNote/TestCaseNote.js'
+import { Alert } from 'antd'
 import './TestCase.css'
 
 export function TestCase(props) {
@@ -13,7 +13,6 @@ export function TestCase(props) {
   ) : (
     props.message
   )
-
   return (
     <Alert
       className="test-case-alert"
