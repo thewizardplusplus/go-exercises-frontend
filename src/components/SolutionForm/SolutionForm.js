@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
-import { fetchJsonData } from '../../hooks/fetchJsonData.js'
+import { useJsonDataFetching } from '../../hooks/hooks.js'
 import { Spin, Form, Row, Col, Button, message } from 'antd'
 import { Editor } from '../Editor/Editor.js'
 import './SolutionForm.css'
 
 export function SolutionForm(props) {
-  const [loading, setLoading] = useState(false)
+  const { loading, fetchJsonData } = useJsonDataFetching()
   const authHeader = useAuthHeader()
   const [form] = Form.useForm()
 
@@ -20,14 +20,8 @@ export function SolutionForm(props) {
       await fetchJsonData('GET', `/api/v1/solutions/${props.solutionID}`, {
         headers: { Authorization: authHeader() },
 
-        onLoadingBeginning: () => {
-          setLoading(true)
-        },
         onLoadingSuccess: solution => {
           form.setFieldsValue({ code: solution.Code })
-        },
-        onLoadingEnding: () => {
-          setLoading(false)
         },
       })
     })()
@@ -45,15 +39,9 @@ export function SolutionForm(props) {
             headers: { Authorization: authHeader() },
             data,
 
-            onLoadingBeginning: () => {
-              setLoading(true)
-            },
             onLoadingSuccess: () => {
               props.onSolutionSubmission()
               message.success('Solution submitted')
-            },
-            onLoadingEnding: () => {
-              setLoading(false)
             },
           })
         }}
@@ -71,14 +59,8 @@ export function SolutionForm(props) {
                     headers: { Authorization: authHeader() },
                     data: form.getFieldsValue(),
 
-                    onLoadingBeginning: () => {
-                      setLoading(true)
-                    },
                     onLoadingSuccess: solution => {
                       form.setFieldsValue({ code: solution.Code })
-                    },
-                    onLoadingEnding: () => {
-                      setLoading(false)
                     },
                   })
                 },

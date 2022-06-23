@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuthHeader } from 'react-auth-kit'
 import { useParams, useHistory } from 'react-router-dom'
-import { fetchJsonData } from '../../hooks/fetchJsonData.js'
+import { useJsonDataFetching } from '../../hooks/hooks.js'
 import { List, Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { StatusSign } from '../StatusSign/StatusSign.js'
@@ -9,7 +9,7 @@ import { ItemDetails } from '../ItemDetails/ItemDetails.js'
 import './TaskGroup.css'
 
 export function TaskGroup() {
-  const [loading, setLoading] = useState(false)
+  const { loading, fetchJsonData } = useJsonDataFetching()
   const [tasks, setTasks] = useState({ Tasks: [], TotalCount: 0 })
   const { page: defaultPage } = useParams()
   const [page, setPage] = useState(parseInt(defaultPage, 10) || 1)
@@ -21,15 +21,9 @@ export function TaskGroup() {
     await fetchJsonData('GET', url, {
       headers: { Authorization: authHeader() },
 
-      onLoadingBeginning: () => {
-        setLoading(true)
-      },
       onLoadingSuccess: tasks => {
         setTasks(tasks)
         setPage(page)
-      },
-      onLoadingEnding: () => {
-        setLoading(false)
       },
     })
   }

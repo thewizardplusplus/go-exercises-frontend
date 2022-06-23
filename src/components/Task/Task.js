@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader, useAuthUser } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { fetchJsonData } from '../../hooks/fetchJsonData.js'
+import { useJsonDataFetching } from '../../hooks/hooks.js'
 import { Card, Space, Tooltip, Button, Spin, Row, Col, Tabs } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { StatusSign } from '../StatusSign/StatusSign.js'
@@ -13,8 +13,11 @@ import { SolutionForm } from '../SolutionForm/SolutionForm.js'
 import './Task.css'
 
 export function Task(props) {
-  const [loading, setLoading] = useState(false)
-  const [statusLoading, setStatusLoading] = useState(false)
+  const { loading, fetchJsonData } = useJsonDataFetching()
+  const {
+    loading: statusLoading,
+    fetchJsonData: fetchStatusJsonData,
+  } = useJsonDataFetching()
   const [task, setTask] = useState(null)
   const [taskStatus, setTaskStatus] = useState(null)
   const [activeTab, setActiveTab] = useState(
@@ -28,23 +31,17 @@ export function Task(props) {
   const auth = useAuthUser()
   const history = useHistory()
 
-  const loadTask = async (id, loadingSetter, handler) => {
-    await fetchJsonData('GET', `/api/v1/tasks/${id}`, {
+  const loadTask = async (id, loader, handler) => {
+    await loader('GET', `/api/v1/tasks/${id}`, {
       headers: { Authorization: authHeader() },
 
-      onLoadingBeginning: () => {
-        loadingSetter(true)
-      },
       onLoadingSuccess: task => {
         handler(task)
-      },
-      onLoadingEnding: () => {
-        loadingSetter(false)
       },
     })
   }
   useEffect(() => {
-    loadTask(id, setLoading, task => {
+    loadTask(id, fetchJsonData, task => {
       setTask(task)
       setTaskStatus(task.Status)
     })
@@ -71,15 +68,9 @@ export function Task(props) {
                   await fetchJsonData('DELETE', `/api/v1/tasks/${id}`, {
                     headers: { Authorization: authHeader() },
 
-                    onLoadingBeginning: () => {
-                      setLoading(true)
-                    },
                     onLoadingSuccess: () => {
                       history.push('/')
                       return false // finishing not required
-                    },
-                    onLoadingEnding: () => {
-                      setLoading(false)
                     },
                   })
                 }}
@@ -120,7 +111,7 @@ export function Task(props) {
                 taskID={id}
                 solutionID={solutionID}
                 onSolutionUpdate={() => {
-                  loadTask(id, setStatusLoading, task => {
+                  loadTask(id, fetchStatusJsonData, task => {
                     setTaskStatus(task.Status)
                   })
                 }}

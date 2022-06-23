@@ -1,15 +1,13 @@
-import { useState } from 'react'
 import { useSignIn } from 'react-auth-kit'
 import { Redirect, useHistory } from 'react-router-dom'
 import { useIsAuthenticated } from 'react-auth-kit'
 import { Spin, Form, Input, Button } from 'antd'
-import { fetchJsonData } from '../../hooks/fetchJsonData.js'
+import { useJsonDataFetching } from '../../hooks/hooks.js'
 import jwtDecode from 'jwt-decode'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 export function LoginForm() {
-  // hooks should be called unconditionally
-  const [loading, setLoading] = useState(false)
+  const { loading, fetchJsonData } = useJsonDataFetching()
   const signIn = useSignIn()
   const history = useHistory()
 
@@ -26,9 +24,6 @@ export function LoginForm() {
           await fetchJsonData('POST', '/api/v1/tokens/', {
             data,
 
-            onLoadingBeginning: () => {
-              setLoading(true)
-            },
             onLoadingSuccess: credentials => {
               const decodedCredentials = jwtDecode(credentials.AccessToken)
               const isSignedIn = signIn({
@@ -43,9 +38,6 @@ export function LoginForm() {
 
               history.push('/')
               return false // finishing not required
-            },
-            onLoadingEnding: () => {
-              setLoading(false)
             },
           })
         }}

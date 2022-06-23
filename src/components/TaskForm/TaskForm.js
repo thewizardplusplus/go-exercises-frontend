@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthHeader } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { fetchJsonData } from '../../hooks/fetchJsonData.js'
+import { useJsonDataFetching } from '../../hooks/hooks.js'
 import { Spin, Form, Input, Card, Tooltip, Row, Col, Button } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { Editor } from '../Editor/Editor.js'
 import './TaskForm.css'
 
 export function TaskForm() {
-  const [loading, setLoading] = useState(false)
+  const { loading, fetchJsonData } = useJsonDataFetching()
   const { id } = useParams()
   const authHeader = useAuthHeader()
   const [form] = Form.useForm()
@@ -25,9 +25,6 @@ export function TaskForm() {
       await fetchJsonData('GET', `/api/v1/tasks/${id}`, {
         headers: { Authorization: authHeader() },
 
-        onLoadingBeginning: () => {
-          setLoading(true)
-        },
         onLoadingSuccess: task => {
           form.setFieldsValue({
             title: task.Title,
@@ -38,9 +35,6 @@ export function TaskForm() {
               expectedOutput: testCase.ExpectedOutput,
             })),
           })
-        },
-        onLoadingEnding: () => {
-          setLoading(false)
         },
       })
     })()
@@ -58,15 +52,9 @@ export function TaskForm() {
         })),
       },
 
-      onLoadingBeginning: () => {
-        setLoading(true)
-      },
       onLoadingSuccess: task => {
         let idForRedirection = id ?? task.ID
         return handler(idForRedirection)
-      },
-      onLoadingEnding: () => {
-        setLoading(false)
       },
     })
   }
