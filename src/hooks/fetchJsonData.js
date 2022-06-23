@@ -39,7 +39,7 @@ export async function fetchJsonData(method, url, options) {
     const response = await fetch(url, {
       method,
       headers: {
-        ...(options.headers || {}),
+        ...(options.headers ?? {}),
         'Content-Type': options.data && 'application/json',
       },
       body: options.data && JSON.stringify(options.data),

@@ -15,7 +15,7 @@ export function Markdown(props) {
           pre: 'div',
 
           code({ inline, className, children }) {
-            const languageMatch = (className || '').match(/language-(\w+)/)
+            const languageMatch = (className ?? '').match(/language-(\w+)/)
             return !inline ? (
               <SyntaxHighlighter
                 language={languageMatch ? languageMatch[1] : 'text'}

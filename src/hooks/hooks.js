@@ -34,7 +34,7 @@ export function useJsonDataFetchingWithAuth() {
       await fetchJsonData(method, url, {
         ...options,
         headers: {
-          ...(options.headers || {}),
+          ...(options.headers ?? {}),
           Authorization: authHeader(),
         },
       })
