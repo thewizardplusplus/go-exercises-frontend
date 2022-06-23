@@ -1,17 +1,15 @@
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useAuthHeader } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { useJsonDataFetching } from '../../hooks/hooks.js'
+import { useJsonDataFetchingWithAuth } from '../../hooks/hooks.js'
 import { Spin, Form, Input, Card, Tooltip, Row, Col, Button } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { Editor } from '../Editor/Editor.js'
 import './TaskForm.css'
 
 export function TaskForm() {
-  const { loading, fetchJsonData } = useJsonDataFetching()
+  const { loading, fetchJsonData } = useJsonDataFetchingWithAuth()
   const { id } = useParams()
-  const authHeader = useAuthHeader()
   const [form] = Form.useForm()
   const history = useHistory()
 
@@ -23,8 +21,6 @@ export function TaskForm() {
       }
 
       await fetchJsonData('GET', `/api/v1/tasks/${id}`, {
-        headers: { Authorization: authHeader() },
-
         onLoadingSuccess: task => {
           form.setFieldsValue({
             title: task.Title,
@@ -43,7 +39,6 @@ export function TaskForm() {
   const saveTask = async (data, handler) => {
     const method = id === undefined ? 'POST' : 'PUT'
     await fetchJsonData(method, `/api/v1/tasks/${id ?? ''}`, {
-      headers: { Authorization: authHeader() },
       data: {
         ...data,
         testCases: data.testCases.map(testCase => ({

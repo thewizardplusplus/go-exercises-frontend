@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useAuthHeader, useAuthUser } from 'react-auth-kit'
+import { useAuthUser } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
-import { useJsonDataFetching } from '../../hooks/hooks.js'
+import { useJsonDataFetchingWithAuth } from '../../hooks/hooks.js'
 import { Card, Space, Tooltip, Button, Spin, Row, Col, Tabs } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { StatusSign } from '../StatusSign/StatusSign.js'
@@ -13,11 +13,11 @@ import { SolutionForm } from '../SolutionForm/SolutionForm.js'
 import './Task.css'
 
 export function Task(props) {
-  const { loading, fetchJsonData } = useJsonDataFetching()
+  const { loading, fetchJsonData } = useJsonDataFetchingWithAuth()
   const {
     loading: statusLoading,
     fetchJsonData: fetchStatusJsonData,
-  } = useJsonDataFetching()
+  } = useJsonDataFetchingWithAuth()
   const [task, setTask] = useState(null)
   const [taskStatus, setTaskStatus] = useState(null)
   const [activeTab, setActiveTab] = useState(
@@ -27,14 +27,11 @@ export function Task(props) {
   const [solutionID, setSolutionID] = useState(
     parseInt(defaultSolutionID, 10) || undefined,
   )
-  const authHeader = useAuthHeader()
   const auth = useAuthUser()
   const history = useHistory()
 
   const loadTask = async (id, loader, handler) => {
     await loader('GET', `/api/v1/tasks/${id}`, {
-      headers: { Authorization: authHeader() },
-
       onLoadingSuccess: task => {
         handler(task)
       },
@@ -66,8 +63,6 @@ export function Task(props) {
                 icon={<DeleteOutlined />}
                 onClick={async () => {
                   await fetchJsonData('DELETE', `/api/v1/tasks/${id}`, {
-                    headers: { Authorization: authHeader() },
-
                     onLoadingSuccess: () => {
                       history.push('/')
                       return false // finishing not required

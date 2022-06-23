@@ -1,13 +1,11 @@
 import { useEffect } from 'react'
-import { useAuthHeader } from 'react-auth-kit'
-import { useJsonDataFetching } from '../../hooks/hooks.js'
+import { useJsonDataFetchingWithAuth } from '../../hooks/hooks.js'
 import { Spin, Form, Row, Col, Button, message } from 'antd'
 import { Editor } from '../Editor/Editor.js'
 import './SolutionForm.css'
 
 export function SolutionForm(props) {
-  const { loading, fetchJsonData } = useJsonDataFetching()
-  const authHeader = useAuthHeader()
+  const { loading, fetchJsonData } = useJsonDataFetchingWithAuth()
   const [form] = Form.useForm()
 
   useEffect(() => {
@@ -18,8 +16,6 @@ export function SolutionForm(props) {
       }
 
       await fetchJsonData('GET', `/api/v1/solutions/${props.solutionID}`, {
-        headers: { Authorization: authHeader() },
-
         onLoadingSuccess: solution => {
           form.setFieldsValue({ code: solution.Code })
         },
@@ -36,7 +32,6 @@ export function SolutionForm(props) {
         onFinish={async data => {
           const url = `/api/v1/tasks/${props.taskID}/solutions/`
           await fetchJsonData('POST', url, {
-            headers: { Authorization: authHeader() },
             data,
 
             onLoadingSuccess: () => {
@@ -56,7 +51,6 @@ export function SolutionForm(props) {
                 bindKey: { win: 'Ctrl-S', mac: 'Command-S' },
                 exec: async () => {
                   await fetchJsonData('POST', '/api/v1/solutions/format', {
-                    headers: { Authorization: authHeader() },
                     data: form.getFieldsValue(),
 
                     onLoadingSuccess: solution => {
