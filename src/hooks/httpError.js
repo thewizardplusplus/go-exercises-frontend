@@ -28,6 +28,10 @@
 const ParentClass = Error
 
 export function HTTPError() {
+  if (new.target === undefined) {
+    return Reflect.construct(HTTPError, Array.from(arguments))
+  }
+
   const instance = Reflect.construct(ParentClass, Array.from(arguments))
   Object.setPrototypeOf(instance, Object.getPrototypeOf(this))
 
