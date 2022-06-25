@@ -45,5 +45,11 @@ HTTPError.prototype = Object.create(ParentClass.prototype, {
     enumerable: false,
     writable: true,
   },
+  name: {
+    value: HTTPError.name,
+    configurable: true,
+    enumerable: false,
+    writable: true,
+  },
 })
 Object.setPrototypeOf(HTTPError, ParentClass)
