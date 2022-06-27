@@ -1,6 +1,6 @@
 import { message } from 'antd'
 
-async function parseResponse(response) {
+async function parseResponseData(response) {
   const contentType = response.headers.get('Content-Type')
   if (contentType === null) {
     return undefined
@@ -45,11 +45,11 @@ export async function fetchJSONData(method, url, options) {
       body: options.data && JSON.stringify(options.data),
     })
     if (!response.ok) {
-      const errMessage = await parseResponse(response)
+      const errMessage = await parseResponseData(response)
       throw new Error(errMessage)
     }
 
-    const data = await parseResponse(response)
+    const data = await parseResponseData(response)
     isFinishingRequired = options.onLoadingSuccess(data) ?? isFinishingRequired
   } catch (exception) {
     isFinishingRequired =

@@ -27,13 +27,21 @@
 
 const ParentClass = Error
 
-export function HTTPError() {
+export function HTTPError(statusCode, responseData) {
   if (new.target === undefined) {
-    return Reflect.construct(HTTPError, Array.from(arguments))
+    return Reflect.construct(HTTPError, [statusCode, responseData])
   }
 
-  const instance = Reflect.construct(ParentClass, Array.from(arguments))
+  const responseDataAsString =
+    typeof responseData === 'string' || responseData instanceof String
+      ? responseData
+      : JSON.stringify(responseData)
+  const message = `${statusCode} ${responseDataAsString}`
+
+  const instance = Reflect.construct(ParentClass, [message])
   Object.setPrototypeOf(instance, Object.getPrototypeOf(this))
+  instance.statusCode = statusCode
+  instance.responseData = responseData
 
   return instance
 }
