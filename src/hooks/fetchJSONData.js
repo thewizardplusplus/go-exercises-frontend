@@ -1,4 +1,5 @@
 import { message } from 'antd'
+import { HTTPError } from './httpError.js'
 
 async function parseResponseData(response) {
   const contentType = response.headers.get('Content-Type')
@@ -45,8 +46,9 @@ export async function fetchJSONData(method, url, options) {
       body: options.data && JSON.stringify(options.data),
     })
     if (!response.ok) {
-      const errMessage = await parseResponseData(response)
-      throw new Error(errMessage)
+      const errorData = await parseResponseData(response)
+      // do not use the "??" operator to support an empty string, etc.
+      throw new HTTPError(response.status, errorData || response.statusText)
     }
 
     const data = await parseResponseData(response)
