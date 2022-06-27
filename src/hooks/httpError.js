@@ -61,3 +61,38 @@ HTTPError.prototype = Object.create(ParentClass.prototype, {
   },
 })
 Object.setPrototypeOf(HTTPError, ParentClass)
+
+// Some tests for the `HTTPError` class. To run them, perform the following
+// actions:
+// - uncomment the lines below, starting with `;[`;
+// - remove the `export` keyword above;
+// - copy all the content of this file and paste it to a browser console.
+// ;[
+//   ["new Error('err1')", new Error('err1')],
+//   ["new HTTPError(500, 'err2')", new HTTPError(500, 'err2')],
+//   [
+//     "new HTTPError(500, { message: 'err2.5' })",
+//     new HTTPError(500, { message: 'err2.5' }),
+//   ],
+//   ["Error('err3')", Error('err3')],
+//   ["HTTPError(500, 'err4')", HTTPError(500, 'err4')],
+//   [
+//     "HTTPError(500, { message: 'err4.5' })",
+//     HTTPError(500, { message: 'err4.5' }),
+//   ],
+// ].forEach(([name, value]) => {
+//   console.group(name)
+//   console.log('value.name: ', value.name)
+//   console.log('value.message: ', value.message)
+//   console.log('value.cause: ', value.cause)
+//   console.log('value.fileName: ', value.fileName)
+//   console.log('value.lineNumber: ', value.lineNumber)
+//   console.log('value.columnNumber: ', value.columnNumber)
+//   console.log('value.statusCode: ', value.statusCode)
+//   console.log('value.responseData: ', value.responseData)
+//   console.log('value.stack: ', value.stack)
+//   console.log('value instanceof Error: ', value instanceof Error)
+//   console.log('value instanceof HTTPError: ', value instanceof HTTPError)
+//   console.log('value.toString(): ', value.toString())
+//   console.groupEnd()
+// })
