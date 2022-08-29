@@ -1,7 +1,8 @@
 import { wrapHookWithJSONDataFetching } from './wrapHookWithJSONDataFetching.js'
 import { useState } from 'react'
 import { message } from 'antd'
-import { useAuthHeader } from 'react-auth-kit'
+import { useAuthHeader, useSignOut } from 'react-auth-kit'
+import { HTTPError } from './httpError.js'
 
 const useJSONDataFetching = wrapHookWithJSONDataFetching(() => {
   const [loading, setLoading] = useState(false)
@@ -52,6 +53,7 @@ const useJSONDataFetchingWithAuth = wrapHookWithJSONDataFetching(() => {
 export const useJSONDataFetchingWithAuthAndErrorHandling =
   wrapHookWithJSONDataFetching(() => {
     const { loading, fetchJSONData } = useJSONDataFetchingWithAuth()
+    const signOut = useSignOut()
 
     return {
       loading,
@@ -59,6 +61,10 @@ export const useJSONDataFetchingWithAuthAndErrorHandling =
       options: {
         onLoadingFailure: exception => {
           message.error(exception.toString())
+
+          if (exception instanceof HTTPError && exception.statusCode === 401) {
+            signOut()
+          }
         },
       },
     }
