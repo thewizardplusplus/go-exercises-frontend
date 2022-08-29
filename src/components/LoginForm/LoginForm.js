@@ -1,5 +1,5 @@
 import { useIsAuthenticated } from 'react-auth-kit'
-import { useJSONDataFetching } from '../../hooks/hooks.js'
+import { useJSONDataFetchingWithErrorHandling } from '../../hooks/hooks.js'
 import { useSignIn } from 'react-auth-kit'
 import { Redirect, useHistory } from 'react-router-dom'
 import { Spin, Form, Input, Button } from 'antd'
@@ -8,7 +8,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 export function LoginForm() {
   const isAuthenticated = useIsAuthenticated()
-  const { loading, fetchJSONData } = useJSONDataFetching()
+  const { loading, fetchJSONData } = useJSONDataFetchingWithErrorHandling()
   const signIn = useSignIn()
   const history = useHistory()
 

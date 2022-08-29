@@ -1,8 +1,9 @@
-import { useState } from 'react'
 import { wrapHookWithJSONDataFetching } from './wrapHookWithJSONDataFetching.js'
+import { useState } from 'react'
+import { message } from 'antd'
 import { useAuthHeader } from 'react-auth-kit'
 
-export const useJSONDataFetching = wrapHookWithJSONDataFetching(() => {
+const useJSONDataFetching = wrapHookWithJSONDataFetching(() => {
   const [loading, setLoading] = useState(false)
 
   return {
@@ -17,6 +18,21 @@ export const useJSONDataFetching = wrapHookWithJSONDataFetching(() => {
     },
   }
 })
+
+export const useJSONDataFetchingWithErrorHandling =
+  wrapHookWithJSONDataFetching(() => {
+    const { loading, fetchJSONData } = useJSONDataFetching()
+
+    return {
+      loading,
+      fetchJSONData,
+      options: {
+        onLoadingFailure: exception => {
+          message.error(exception.toString())
+        },
+      },
+    }
+  })
 
 export const useJSONDataFetchingWithAuth = wrapHookWithJSONDataFetching(() => {
   const { loading, fetchJSONData } = useJSONDataFetching()
