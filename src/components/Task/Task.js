@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { useJSONDataFetchingWithAuth } from '../../hooks/hooks.js'
+import { useJSONDataFetchingWithAuthAndErrorHandling } from '../../hooks/hooks.js'
 import { useAuthUser } from 'react-auth-kit'
 import { useHistory } from 'react-router-dom'
 import { Card, Space, Tooltip, Button, Spin, Row, Col, Tabs } from 'antd'
@@ -17,11 +17,10 @@ export function Task(props) {
   const [solutionID, setSolutionID] = useState(
     parseInt(defaultSolutionID, 10) || undefined,
   )
-  const { loading, fetchJSONData } = useJSONDataFetchingWithAuth()
-  const {
-    loading: statusLoading,
-    fetchJSONData: fetchStatusJSONData,
-  } = useJSONDataFetchingWithAuth()
+  const { loading, fetchJSONData } =
+    useJSONDataFetchingWithAuthAndErrorHandling()
+  const { loading: statusLoading, fetchJSONData: fetchStatusJSONData } =
+    useJSONDataFetchingWithAuthAndErrorHandling()
   const [task, setTask] = useState(null)
   const [taskStatus, setTaskStatus] = useState(null)
   const authUser = useAuthUser()

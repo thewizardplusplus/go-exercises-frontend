@@ -1,4 +1,4 @@
-import { useJSONDataFetchingWithAuth } from '../../hooks/hooks.js'
+import { useJSONDataFetchingWithAuthAndErrorHandling } from '../../hooks/hooks.js'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Button, List } from 'antd'
@@ -9,7 +9,8 @@ import './SolutionGroup.css'
 const pageSize = 5
 
 export function SolutionGroup(props) {
-  const { loading, fetchJSONData } = useJSONDataFetchingWithAuth()
+  const { loading, fetchJSONData } =
+    useJSONDataFetchingWithAuthAndErrorHandling()
   const [solutions, setSolutions] = useState({ Solutions: [], TotalCount: 0 })
   const { page: defaultPage } = useParams()
   const [page, setPage] = useState(parseInt(defaultPage, 10) || 1)

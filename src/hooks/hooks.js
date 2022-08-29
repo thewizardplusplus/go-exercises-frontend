@@ -34,7 +34,7 @@ export const useJSONDataFetchingWithErrorHandling =
     }
   })
 
-export const useJSONDataFetchingWithAuth = wrapHookWithJSONDataFetching(() => {
+const useJSONDataFetchingWithAuth = wrapHookWithJSONDataFetching(() => {
   const { loading, fetchJSONData } = useJSONDataFetching()
   const authHeader = useAuthHeader()
 
@@ -48,3 +48,18 @@ export const useJSONDataFetchingWithAuth = wrapHookWithJSONDataFetching(() => {
     },
   }
 })
+
+export const useJSONDataFetchingWithAuthAndErrorHandling =
+  wrapHookWithJSONDataFetching(() => {
+    const { loading, fetchJSONData } = useJSONDataFetchingWithAuth()
+
+    return {
+      loading,
+      fetchJSONData,
+      options: {
+        onLoadingFailure: exception => {
+          message.error(exception.toString())
+        },
+      },
+    }
+  })

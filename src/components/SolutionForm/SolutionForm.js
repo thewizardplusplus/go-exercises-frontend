@@ -1,12 +1,13 @@
 import { Form, Spin, Row, Col, Button, message } from 'antd'
-import { useJSONDataFetchingWithAuth } from '../../hooks/hooks.js'
+import { useJSONDataFetchingWithAuthAndErrorHandling } from '../../hooks/hooks.js'
 import { useEffect } from 'react'
 import { Editor } from '../Editor/Editor.js'
 import './SolutionForm.css'
 
 export function SolutionForm(props) {
   const [form] = Form.useForm()
-  const { loading, fetchJSONData } = useJSONDataFetchingWithAuth()
+  const { loading, fetchJSONData } =
+    useJSONDataFetchingWithAuthAndErrorHandling()
 
   const setSolution = solution => {
     form.setFieldsValue({ code: solution.Code })

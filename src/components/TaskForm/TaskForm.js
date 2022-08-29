@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { Form, Spin, Input, Card, Tooltip, Button, Row, Col } from 'antd'
-import { useJSONDataFetchingWithAuth } from '../../hooks/hooks.js'
+import { useJSONDataFetchingWithAuthAndErrorHandling } from '../../hooks/hooks.js'
 import { useHistory } from 'react-router-dom'
 import { useEffect } from 'react'
 import { Editor } from '../Editor/Editor.js'
@@ -10,7 +10,8 @@ import './TaskForm.css'
 export function TaskForm() {
   const { id } = useParams()
   const [form] = Form.useForm()
-  const { loading, fetchJSONData } = useJSONDataFetchingWithAuth()
+  const { loading, fetchJSONData } =
+    useJSONDataFetchingWithAuthAndErrorHandling()
   const history = useHistory()
 
   useEffect(() => {

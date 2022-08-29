@@ -1,4 +1,3 @@
-import { message } from 'antd'
 import { HTTPError } from './httpError.js'
 
 async function parseResponseData(response) {
@@ -25,14 +24,6 @@ async function parseResponseData(response) {
 }
 
 export async function fetchJSONData(method, url, options) {
-  // default options
-  options = {
-    onLoadingFailure: exception => {
-      message.error(exception.toString())
-    },
-    ...options,
-  }
-
   options.onLoadingBeginning && options.onLoadingBeginning()
 
   let isFinishingRequired = true
