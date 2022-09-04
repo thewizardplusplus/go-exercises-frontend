@@ -18,6 +18,25 @@
 
 ## [v1.0-alpha.1](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.0-alpha.1) (2021-04-20)
 
+Displaying a task group and a single task; add the task form for task creation and editing.
+
+- Simplify the styles of the login form
+- Displaying a task group:
+  - Add the loading of the tasks
+  - Display the tasks
+  - Add the links to the separate tasks
+  - Add the button for task creation
+- Displaying a single task:
+  - Add the loading of the task
+  - Display the task
+  - Add the task deletion
+  - Hide the action buttons for other users' tasks
+- Add the task form:
+  - Add the task form for task creation
+  - Upgrade the task form for task editing
+  - Use the monospace font in the task form
+- Add the task details component
+
 ## [v1.0-alpha](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.0-alpha) (2021-04-17)
 
 Add the basics of the layout and the routing; add the page header and the login form.
