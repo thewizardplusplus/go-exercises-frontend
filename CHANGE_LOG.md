@@ -19,3 +19,19 @@
 ## [v1.0-alpha.1](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.0-alpha.1) (2021-04-20)
 
 ## [v1.0-alpha](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.0-alpha) (2021-04-17)
+
+Add the basics of the layout and the routing; add the page header and the login form.
+
+- Add the basic layout
+- Implement the basics of the routing
+- Add the page header:
+  - Implement the signing out
+  - Display the user avatar
+  - Fix the background color of the page header elements
+  - Add the tooltip for the home button
+- Add the login form:
+  - Add the basics of the login form
+  - Implement the logging in the login form
+  - Decode the access token
+  - Implement the signing in
+  - Redirect authenticated users from the login form
