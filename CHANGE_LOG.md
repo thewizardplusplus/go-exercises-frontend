@@ -6,6 +6,17 @@
 
 ## [v1.4](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.4) (2022-06-11)
 
+Update the task form: add the cancel button, the <kbd>Ctrl</kbd>+<kbd>S</kbd> combination for saving, and the editor of test cases.
+
+- Fix the styles of the page header
+- Update the task form:
+  - Add the cancel button to the task form
+  - Handle the <kbd>Ctrl</kbd>+<kbd>S</kbd> combination for saving in the task form
+  - Add the `saveTask()` function to the task form
+  - Add the editor of test cases:
+    - Implement the editor of test cases in the task form
+    - Set the initial value of test cases in the task form
+
 ## [v1.3](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.3) (2021-09-24)
 
 Update the current URL on the pagination changing in the task group component and in the solution group component; update the solution group component.
