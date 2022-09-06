@@ -8,6 +8,23 @@
 
 ## [v1.3](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.3) (2021-09-24)
 
+Update the current URL on the pagination changing in the task group component and in the solution group component; update the solution group component.
+
+- Update the pagination:
+  - In the task group component:
+    - Receive the page count from the server in the task group component
+    - Update the current URL on the pagination changing in the task group component
+  - In the solution group component:
+    - Receive the page count from the server in the solution group component
+    - Update the current URL on the pagination changing in the solution group component
+- Update the solution group component:
+  - Fix the item title in the solution group component
+  - Fix the item fields in the solution group component
+  - Update the task status on the updating of the corresponding solutions
+- Update the solution details component:
+  - Add the test case note component
+  - Fix the test case component
+
 ## [v1.2](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.2) (2021-05-10)
 
 Add the support for [Markdown](https://daringfireball.net/projects/markdown/) in the task component; use the [Ace](https://ace.c9.io/) editor in the task and solution forms components.
