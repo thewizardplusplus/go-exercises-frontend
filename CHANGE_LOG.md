@@ -16,6 +16,29 @@
 
 ## [v1.0](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.0) (2021-04-21)
 
+Displaying a solution group and a single solution; add the solution form.
+
+- Fix the styles:
+  - Fix the style of the page header
+  - Fix the style of the task group
+  - Fix the style of the task page:
+    - Fix the task title on the task page
+  - Fix the style of the task form
+- Displaying a solution group:
+  - Add the basics of the solution group component
+  - Add the loading of the solutions to the solution group component
+  - Display the solutions in the solution group component
+  - Sort the solutions by their creation timestamps in the solution group component
+  - Add the update button to the solution group component
+  - Fix the titles of the solutions in the solution group component
+- Displaying a single solution:
+  - Add the solution details component
+- Add the solution form:
+  - Add the solution form
+  - Load the selected solution to the solution form
+  - Add the reset button to the solution form
+  - Show the solutions on the solution submission
+
 ## [v1.0-alpha.1](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.0-alpha.1) (2021-04-20)
 
 Displaying a task group and a single task; add the task form for task creation and editing.
