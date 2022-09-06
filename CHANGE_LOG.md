@@ -10,6 +10,23 @@
 
 ## [v1.2](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.2) (2021-05-10)
 
+Add the support for [Markdown](https://daringfireball.net/projects/markdown/) in the task component; use the [Ace](https://ace.c9.io/) editor in the task and solution forms components.
+
+- Support for [Markdown](https://daringfireball.net/projects/markdown/):
+  - Render Markdown in the task component
+  - Support for [GitHub Flavored Markdown](https://github.github.com/gfm/) in the task component
+  - Improve the styles of Markdown in the task component
+  - Add the Markdown component:
+    - Add the Markdown component
+    - Support for the syntax highlighting in the Markdown component
+    - Fix the styles of tables in the Markdown component
+- Use the [Ace](https://ace.c9.io/) editor:
+  - Use the Ace editor in the task form component
+  - Use the Ace editor in the solution form component
+  - Add the editor component:
+    - Add the editor component
+    - Add the formatting command (triggered by pressing <kbd>Ctrl</kbd>+<kbd>S</kbd>)
+
 ## [v1.1](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.1) (2021-05-09)
 
 Add the pagination; display the status sign in the task group component and in the task component; update the task and solution details components.
