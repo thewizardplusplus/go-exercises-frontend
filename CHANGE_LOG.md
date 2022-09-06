@@ -14,6 +14,11 @@
 
 ## [v1.0.1](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.0.1) (2021-04-25)
 
+Add the [Docker](https://www.docker.com/) configuration for building.
+
+- Add the [Docker](https://www.docker.com/) configuration for building
+- Add the [Docker Compose](https://docs.docker.com/compose/) configuration for building
+
 ## [v1.0](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.0) (2021-04-21)
 
 Displaying a solution group and a single solution; add the solution form.
