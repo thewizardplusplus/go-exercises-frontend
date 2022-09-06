@@ -12,6 +12,36 @@
 
 ## [v1.1](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.1) (2021-05-09)
 
+Add the pagination; display the status sign in the task group component and in the task component; update the task and solution details components.
+
+- Remove the sorting from the solution group component
+- Add the pagination:
+  - Add the pagination to the task group component:
+    - Add the `loadTasks()` function to the task group component
+  - Add the pagination to the solution group component
+- Displaying the status sign:
+  - Fix the color of the failure sign in the solution group component
+  - Add the status sign to the task group component
+  - Add the status sign to the task component
+  - Add the status sign component
+- Update the task and solution details components:
+  - Fix the styles:
+    - Fix the styles of the task details component
+    - Fix the styles of the solution details component:
+      - Display the solution details as a preformatted text
+  - Additionally display the quoted string in the solution details component
+  - Displaying the user:
+    - Display the user in the task details component
+    - Display the user in the solution details component
+  - Add the item details component:
+    - Add the item details component
+    - Remove the task details component
+    - Simplify the usage of the item details component
+  - Add the test case component
+- Update the page header component:
+  - Add the links to the homepage in the page header component
+  - Fix the tooltips in the page header component
+
 ## [v1.0.1](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.0.1) (2021-04-25)
 
 Add the [Docker](https://www.docker.com/) configuration for building.
