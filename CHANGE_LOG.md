@@ -4,6 +4,14 @@
 
 ## [v1.5](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.5) (2022-06-17)
 
+Add the separate route for an individual solution.
+
+- Add the separate route for an individual solution
+- Load the solution on loading its separate route
+- Show only the particular solution in the solution list on its separate route
+- Add the button for returning to all solutions from the separate route for an individual solution
+- Fix the processing of the pagination on the separate route for an individual solution
+
 ## [v1.4](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.4) (2022-06-11)
 
 Update the task form: add the cancel button, the <kbd>Ctrl</kbd>+<kbd>S</kbd> combination for saving, and the editor of test cases.
