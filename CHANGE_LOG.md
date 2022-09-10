@@ -2,6 +2,36 @@
 
 ## [v1.5.1](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.5.1) (2022-08-29)
 
+Add the `useJsonDataFetching()` hook; redirect to the login page on receiving the 401 HTTP status.
+
+- Add the `HTTPError` class:
+  - Add the basics of the `HTTPError` class
+  - Support for the constructing of the `HTTPError` class through a function call
+  - Fix the `name` property of the `HTTPError` class
+  - Store the response data in the `HTTPError` class
+  - Add the several tests for the `HTTPError` class
+- Add the `fetchJsonData()` function:
+  - Add the `parseResponse()` function
+  - Add the `fetchJsonData()` function
+  - Detect that finishing is required in the `fetchJsonData()` function through results of the handlers
+- Add the `useJsonDataFetching()` hook:
+  - Add the `wrapHookWithJSONDataFetching()` function
+  - Add the `useJsonDataFetching()` hook
+  - Add the `useJSONDataFetchingWithErrorHandling()` function
+  - Add the `useJsonDataFetchingWithAuth()` hook
+  - Add the `useJSONDataFetchingWithAuthAndErrorHandling()` function
+  - Process the 401 HTTP status in the `useJSONDataFetchingWithAuthAndErrorHandling()` function
+- Update the following components:
+  - Fix the URL updating on solution submission in the solution form component
+  - Support for the passing of the status code to the status sign component
+  - Remove the support for the JSON mode from the editor component
+- Perform the refactoring:
+  - Fix the style of the entire code
+  - Use the `??` operator instead the `||` operator wherever it is possible
+  - Add the `makeColumnIndex()` function to the [Markdown](https://daringfireball.net/projects/markdown/) component
+  - Add the `setSolution()` function to the solution form component
+  - Add the `updateURL()` function to the task component
+
 ## [v1.5](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.5) (2022-06-17)
 
 Add the separate route for an individual solution.
