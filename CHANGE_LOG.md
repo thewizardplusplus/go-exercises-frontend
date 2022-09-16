@@ -1,5 +1,14 @@
 # Change Log
 
+## [v1.5.2](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.5.2) (2022-09-16)
+
+Describe the releases.
+
+- Describe the releases:
+  - Describe the change logs for the releases
+  - Describe the features for the last release
+- Fix displaying the quoted string in the solution details component
+
 ## [v1.5.1](https://github.com/thewizardplusplus/go-exercises-frontend/tree/v1.5.1) (2022-08-29)
 
 Add the `useJsonDataFetching()` hook; redirect to the login page on receiving the 401 HTTP status.
