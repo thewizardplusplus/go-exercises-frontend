@@ -3,7 +3,7 @@ import { Typography } from 'antd'
 import { TestCase } from '../TestCase/TestCase.js'
 import './SolutionDetails.css'
 
-const quotedStringPattern = /"([^"]|\\.)*"/
+const quotedStringPattern = /"(\\.|[^"])*"/
 
 export function SolutionDetails(props) {
   return (
